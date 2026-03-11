@@ -78,37 +78,41 @@ mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/khedut")
 // =======================
 // 8️⃣ GOOGLE OAUTH STRATEGY
 // =======================
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/api/auth/google/callback"
-}, async (accessToken, refreshToken, profile, done) => {
-    try {
-        let user = await User.findOne({ googleId: profile.id });
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    passport.use(new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "/api/auth/google/callback"
+    }, async (accessToken, refreshToken, profile, done) => {
+        try {
+            let user = await User.findOne({ googleId: profile.id });
 
-        if (user) return done(null, user);
+            if (user) return done(null, user);
 
-        user = await User.findOne({ email: profile.emails[0].value });
+            user = await User.findOne({ email: profile.emails[0].value });
 
-        if (user) {
-            user.googleId = profile.id;
+            if (user) {
+                user.googleId = profile.id;
+                await user.save();
+                return done(null, user);
+            }
+
+            user = new User({
+                username: profile.displayName || profile.emails[0].value.split("@")[0],
+                email: profile.emails[0].value,
+                phone: "",
+                googleId: profile.id
+            });
+
             await user.save();
             return done(null, user);
+        } catch (err) {
+            return done(err, null);
         }
-
-        user = new User({
-            username: profile.displayName || profile.emails[0].value.split("@")[0],
-            email: profile.emails[0].value,
-            phone: "",
-            googleId: profile.id
-        });
-
-        await user.save();
-        return done(null, user);
-    } catch (err) {
-        return done(err, null);
-    }
-}));
+    }));
+} else {
+    console.warn("⚠️ Google OAuth credentials missing. Google Login will be disabled.");
+}
 
 passport.serializeUser((user, done) => {
     done(null, user._id);
