@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khedut Bandhu Signup</title>
+    <link rel="stylesheet" href="farmerlogin.css">
+</head>
+<body>
+    <h2>Farmer Signup</h2>
+    <form id="signupForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="phone">Phone Number:</label><br>
+        <input type="tel" id="phone" name="phone" required><br><br>
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <label for="confirmPassword">Confirm Password:</label><br>
+        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+        
+        <input type="submit" id="signupbutton" value="Sign Up">
+        
+        <p id="errorMsg" style="color:red; text-align:center; display:none;"></p>
+        <p id="successMsg" style="color:green; text-align:center; display:none;"></p>
+        
+        <div class="divider">OR</div>
+
+        <button type="button" class="google-btn" id="googleSignupBtn">
+            <img src="google-icon.png" alt="Google">
+            Sign up with Google
+        </button>
+        
+        <p style="text-align: center; margin-top: 15px; color: #fff; font-size: 13px;">
+            Already have an account? <a href="farmerlogin.html" style="color: #56ab2f; text-decoration: none; font-weight: bold;">Login here</a>
+        </p>
+    </form>
+    <script src="farmersignup.js"></script>
+</body>
+</html>

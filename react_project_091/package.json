@@ -1,0 +1,37 @@
+{
+  "name": "khedut-farmer-app",
+  "version": "1.0.0",
+  "description": "Farmer Application Dashboard for Khedut 2.0",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "client": "cd src && npm start",
+    "build": "cd src && npm run build"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "express-session": "^1.18.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^7.8.8",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.12",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "@google/generative-ai": "^0.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "farmer",
+    "agriculture",
+    "dashboard",
+    "gujarat"
+  ],
+  "author": "",
+  "license": "ISC"
+}

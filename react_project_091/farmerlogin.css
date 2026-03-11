@@ -1,0 +1,146 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Background image */
+body {
+    height: 100vh;
+    background: url("khedutbandhu.png") no-repeat center center / cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Blur overlay on background image */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25); /* dark overlay */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: -1;
+}
+
+/* Heading */
+h2 {
+    position: absolute;
+    top: 60px;
+    color: #ffffff;
+    font-size: 28px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Glassmorphism login box */
+form {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 35px 40px;
+    width: 320px;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Labels */
+label {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+}
+
+/* Focus effect */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(86, 171, 47, 0.9);
+}
+
+/* Login button */
+input[type="submit"] {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px;
+    background: linear-gradient(90deg, #56ab2f, #2ecc71);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover */
+input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Divider */
+.divider {
+    text-align: center;
+    margin: 18px 0;
+    font-size: 13px;
+    color: #fff;
+    opacity: 0.9;
+}
+
+/* Google button */
+.google-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 30px;
+    background: #ffffff;
+    color: #444;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Google icon */
+.google-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Hover effect */
+.google-btn:hover {
+    background: #db4437; /* Google Red */
+    color: #ffffff;
+    box-shadow: 0 8px 18px rgba(219, 68, 55, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Active click */
+.google-btn:active {
+    transform: scale(0.98);
+}

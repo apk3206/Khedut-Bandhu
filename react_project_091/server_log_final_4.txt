@@ -1,0 +1,4 @@
+🚀 Backend running on port 5000
+✅ MongoDB Connected
+Login User Role Found: farmer
+📧 Email sent to anshpat032@gmail.com

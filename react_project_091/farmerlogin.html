@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khedut Bandhu Login</title>
+    <link rel="stylesheet" href="farmerlogin.css">
+</head>
+<body>
+
+<h2>Farmer Login</h2>
+
+<form id="loginForm">
+    <label>Username or Email:</label><br>
+    <input type="text" id="username" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" id="password" required><br><br>
+
+    <input type="submit" id="loginbutton" value="Login">
+
+    <p id="errorMsg" style="color:red; text-align:center; display:none;"></p>
+
+    <div class="divider">OR</div>
+
+    <button type="button" class="google-btn">
+        <img src="google-icon.png" alt="Google">
+        Login with Google
+    </button>
+
+    <div id="otpSection" style="display:none;">
+        <input type="text" id="otp" placeholder="Enter OTP" />
+        <button id="verifyOtpBtn">Verify OTP</button>
+    </div>
+
+
+    <p style="text-align:center; margin-top:15px;">
+        Don't have an account?
+        <a href="farmersignup.html">Sign up here</a>
+    </p>
+</form>
+
+<script src="farmerlogin.js"></script>
+</body>
+</html>

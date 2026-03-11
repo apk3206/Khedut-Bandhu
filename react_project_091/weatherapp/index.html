@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Travel World - Smart Dashboard</title>
+    <link rel="stylesheet" href="weather.css">
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Travel World Dashboard</h1>    
+        <section class="card">
+            <h2>Temperature Preference</h2>
+            <label for="tempUnit">Select Temperature Unit:</label>
+            <select id="tempUnit">
+                <option value="celsius">Celsius (°C)</option>
+                <option value="fahrenheit">Fahrenheit (°F)</option>
+            </select>
+        </section>
+        <section class="card">
+            <h2>Quick Trip Notes</h2>
+            <textarea 
+                id="tripNotes" 
+                placeholder="Type your itinerary notes here...">
+            </textarea>
+        </section>
+
+        <section class="card">
+            <h2>Live Weather</h2>
+            <p id="weather">Loading weather data...</p>
+        </section>
+    </div>
+<script src="weather.js"></script>
+</body>
+</html>
