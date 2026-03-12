@@ -1,0 +1,68 @@
+.ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    /* Professional dark mode look */
+    color: #ffffff;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #28a745;
+    z-index: 999;
+}
+
+.ticker-content {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker-scrolling 35s linear infinite;
+    /* Medium speed */
+}
+
+.ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 2.5rem;
+    font-size: 14px;
+    font-weight: 600;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.crop-name {
+    text-transform: capitalize;
+    color: #ffffff !important;
+}
+
+.crop-price {
+    font-weight: 700;
+}
+
+.crop-trend {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.crop-trend.up {
+    color: #2ecc71;
+}
+
+.crop-trend.down {
+    color: #e74c3c;
+}
+
+@keyframes ticker-scrolling {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        /* Since we doubled the content, we scroll exactly half the total width */
+        transform: translateX(-50%);
+    }
+}
+
+.ticker-wrap:hover .ticker-content {
+    animation-play-state: paused;
+}

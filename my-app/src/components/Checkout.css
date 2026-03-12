@@ -1,0 +1,259 @@
+/* Checkout.css */
+.checkout-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.checkout-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.checkout-section h3 {
+    margin-bottom: 15px;
+    color: #27ae60;
+    font-size: 1.2em;
+}
+
+.checkout-container textarea,
+.checkout-container input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+.checkout-container textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.location-btn {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.location-status {
+    color: #28a745;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+}
+
+.input-row input {
+    flex: 1;
+}
+
+/* Payment Options */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.payment-option:hover {
+    background: #f8f9fa;
+    border-color: #ddd;
+}
+
+.payment-option.active {
+    border-color: #28a745;
+    background: #f0fff4;
+}
+
+.payment-option input {
+    width: auto;
+    margin-bottom: 0;
+    margin-right: 15px;
+    transform: scale(1.3);
+}
+
+.option-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.option-content strong {
+    font-size: 1.1em;
+    color: #2c3e50;
+}
+
+.cod-note {
+    color: #e74c3c;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.upi-note {
+    color: #27ae60;
+    font-size: 0.85em;
+    font-weight: 700;
+}
+
+/* UPI QR Section */
+.upi-qr-section {
+    margin-top: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border: 1px dashed #28a745;
+    border-radius: 12px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.upi-qr-section h4 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.payment-qr {
+    width: 200px;
+    height: 200px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.qr-hint {
+    color: #555;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.upi-id-display {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    background: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid #eee;
+}
+
+.upi-id-display span {
+    color: #27ae60;
+    font-weight: 700;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Order Summary */
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.summary-row.charge {
+    color: #e74c3c;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #eee;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Terms */
+.terms-section {
+    background: #fdfdfe;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.terms-link {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.policy-text {
+    margin-top: 5px;
+    color: #7f8c8d;
+    margin-left: 25px;
+}
+
+/* Actions */
+.checkout-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.back-btn {
+    padding: 12px 30px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+.confirm-btn {
+    padding: 12px 30px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.confirm-btn:hover {
+    background: #218838;
+}

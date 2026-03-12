@@ -1,0 +1,175 @@
+/* Reuse the Global Background and Layout from Farmer Dashboard */
+.admin-dashboard-container {
+    background: url("./maindashh.png") no-repeat center center / cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-layout {
+    display: flex;
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar - Glassmorphism */
+.sidebar {
+    width: 260px;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: #28a745;
+    /* Green Header */
+    color: white;
+    text-align: center;
+}
+
+.menu-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    color: #333;
+    transition: all 0.3s;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-badge {
+    background-color: #ef4444;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3);
+}
+
+.menu-item:hover {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.menu-item.active {
+    background-color: rgba(40, 167, 69, 0.2);
+    font-weight: bold;
+    border-left: 5px solid #28a745;
+    color: #28a745;
+}
+
+/* Content Area */
+.content-area {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.92);
+    /* Solid Card Feel */
+    overflow-y: auto;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Welcome Panel (Transparent for Home Tab) */
+.welcome-panel {
+    text-align: center;
+    padding: 80px 50px;
+    background: transparent;
+    color: #333;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-panel h2 {
+    color: #28a745;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+/* Table Styling */
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
+
+th,
+td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status.pending {
+    background-color: #ffeeba;
+    color: #856404;
+}
+
+.status.resolved {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status.rejected {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status.inprogress {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.desc-preview {
+    font-size: 12px;
+    color: #666;
+    margin: 5px 0 0 0;
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

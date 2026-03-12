@@ -1,0 +1,324 @@
+.user-profile {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  background: #f5f5f5;
+  min-height: calc(100vh - 80px);
+}
+
+.profile-header {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 28px;
+}
+
+.profile-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-tabs button {
+  padding: 12px 24px;
+  border: none;
+  background: #f0f0f0;
+  color: #666;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.profile-tabs button:hover {
+  background: #e0e0e0;
+}
+
+.profile-tabs button.active {
+  background: #28a745;
+  color: white;
+}
+
+.profile-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.info-card {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.info-card h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 20px;
+  border-bottom: 2px solid #28a745;
+  padding-bottom: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-row .label {
+  font-weight: 600;
+  color: #666;
+}
+
+.info-row .value {
+  color: #333;
+}
+
+.subsidy-section h3,
+.orders-section h3,
+.complaints-section h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.subsidy-list,
+.orders-list,
+.complaints-list,
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.subsidy-card,
+.order-card,
+.complaint-card {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.subsidy-card:hover,
+.order-card:hover,
+.complaint-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.subsidy-card h4 {
+  margin: 0 0 15px 0;
+  color: #28a745;
+  font-size: 18px;
+}
+
+.subsidy-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.detail-row .label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.detail-row .value {
+  font-size: 14px;
+  color: #333;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background: #ffc107;
+  color: #333;
+}
+
+.status-approved,
+.status-validated,
+.status-resolved {
+  background: #28a745;
+  color: white;
+}
+
+.status-rejected {
+  background: #dc3545;
+  color: white;
+}
+
+.status-in_progress {
+  background: #17a2b8;
+  color: white;
+}
+
+.order-header,
+.complaint-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.order-id,
+.complaint-id {
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+}
+
+.order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.order-total {
+  text-align: right;
+  padding-top: 10px;
+  border-top: 2px solid #e0e0e0;
+  font-size: 18px;
+  color: #28a745;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  font-size: 14px;
+}
+
+.complaint-details h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.complaint-details p {
+  margin: 0 0 15px 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+.complaint-dates {
+  display: flex;
+  gap: 20px;
+  font-size: 12px;
+  color: #999;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-size: 16px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+.orders-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.orders-tabs button {
+  padding: 10px 20px;
+  border: none;
+  background: #f0f0f0;
+  color: #666;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.orders-tabs button.active {
+  background: #28a745;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .user-profile {
+    padding: 15px 10px;
+  }
+
+  .profile-tabs {
+    flex-wrap: wrap;
+  }
+
+  .profile-tabs button {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .profile-info {
+    grid-template-columns: 1fr;
+  }
+
+  .subsidy-details {
+    grid-template-columns: 1fr;
+  }
+}
+

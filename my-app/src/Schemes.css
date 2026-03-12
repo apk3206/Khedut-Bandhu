@@ -1,0 +1,129 @@
+.schemes-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  background: #f5f5f5;
+  min-height: calc(100vh - 80px);
+}
+
+.schemes-header {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.schemes-header h2 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 32px;
+}
+
+.schemes-header p {
+  margin: 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.schemes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.scheme-card {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.scheme-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+.scheme-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 15px;
+}
+
+.scheme-header h3 {
+  margin: 0;
+  color: #28a745;
+  font-size: 18px;
+  flex: 1;
+}
+
+.scheme-category {
+  background: #e8f5e9;
+  color: #28a745;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.scheme-description {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.scheme-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-view-form,
+.btn-apply {
+  flex: 1;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-view-form {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.btn-view-form:hover {
+  background: #e0e0e0;
+}
+
+.btn-apply {
+  background: #28a745;
+  color: white;
+}
+
+.btn-apply:hover {
+  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .schemes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -1,0 +1,165 @@
+/* Main Layout - Global Background */
+.khedut-dashboard {
+    /* Main Background Image covering detailed area */
+    background: url("./maindashh.png") no-repeat center center / cover;
+    background-attachment: fixed;
+    /* Keeps background static while scrolling */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-layout {
+    display: flex;
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.2);
+    /* Slight overlay for entire dashboard */
+}
+
+/* Sidebar - Glassmorphism */
+.sidebar {
+    width: 260px;
+    background-color: rgba(255, 255, 255, 0.85);
+    /* Semi-transparent white */
+    backdrop-filter: blur(10px);
+    /* Blur effect */
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    color: #333;
+    transition: all 0.3s;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-badge {
+    background-color: #ef4444;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3);
+}
+
+.menu-item:hover {
+    background-color: rgba(40, 167, 69, 0.1);
+    /* Light green hover */
+    color: #28a745;
+}
+
+.menu-item.active {
+    background-color: rgba(40, 167, 69, 0.2);
+    font-weight: bold;
+    border-left: 5px solid #28a745;
+    color: #28a745;
+}
+
+/* Content Area - Transparent on Home, Card on others */
+.content-area {
+    flex-grow: 1;
+    padding: 30px;
+    /* Default background for forms/grids to be readable */
+    background-color: rgba(255, 255, 255, 0.92);
+    overflow-y: auto;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Special Case: Make Home Tab Transparent to see the field */
+/* We will target the .welcome-panel's parent in next step or assume generic structure */
+/* Actually, the cleanest way is to just unset background for .content-area if it's home, 
+   but CSS can't detect react state. 
+   So we will style .welcome-panel to just be transparent and let the .content-area handle it,
+   BUT if we want Home to be fully transparent, we might need to apply a class to content-area dynamically.
+   
+   For now, let's keep content-area semi-transparent white (0.9) so it looks like a clean sheet 
+   OVER the field. The user said "through leftside components", implying sidebar.
+   
+   If they want to see the field on the Right side too, a 0.9 opacity is good.*/
+
+/* Welcome Panel - Now Transparent */
+.welcome-panel {
+    text-align: center;
+    padding: 80px 50px;
+    /* No background image here anymore, it comes from body */
+    background: transparent;
+    color: #333;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-panel h2 {
+    color: #28a745;
+    /* Back to Green for readability on white card */
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-shadow: none;
+}
+
+.welcome-panel p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #555;
+    text-shadow: none;
+}
+
+/* Quick Links */
+.quick-links button {
+    margin: 10px;
+    padding: 12px 25px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.quick-links button:hover {
+    transform: translateY(-2px);
+    background-color: #218838;
+}
+
+/* Recommendation Box Styling */
+.recommendations-box p,
+.recommendations-box strong,
+.recommendations-box li {
+    color: #ffffff !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.recommendations-box h3 {
+    margin-bottom: 15px;
+}
+
+/* Complaint Card */
+.complaint-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background: white;
+    /* Ensure cards are solid */
+}
