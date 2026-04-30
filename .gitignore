@@ -6,20 +6,20 @@ yarn-error.log*
 .npm
 .eslintcache
 
-# Environment
+# Environment variables (keep secret!)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Build
+# Build output
 dist/
 build/
 out/
 .next/
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
 
@@ -29,6 +29,48 @@ Thumbs.db
 *.swp
 *.swo
 
-# Project specific
+# Project specific - uploads
 public/uploads/*
 !public/uploads/.gitkeep
+react_project_091/upload/*
+!react_project_091/upload/.gitkeep
+react_project_091/backend/upload/*
+!react_project_091/backend/upload/.gitkeep
+
+# Python virtual environment
+myenv/
+venv/
+env/
+.venv/
+react_project_091/myenv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# AI Model files (too large for GitHub - 100MB limit)
+*.h5
+*.keras
+*.pkl
+*.onnx
+react_project_091/crop_disease_model.h5
+react_project_091/best_phase1.h5
+
+# PlantVillage training dataset
+react_project_091/backend/plantvillage/
+
+# Server log files
+*.log
+*.txt.log
+react_project_091/server_*.txt
+react_project_091/server_*.log
+
+# Misc generated/temp files
+react_project_091/console.log*
+react_project_091/{
+
+# PDF reports (optional - large file)
+*.pdf

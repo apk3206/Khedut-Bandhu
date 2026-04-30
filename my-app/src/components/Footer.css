@@ -1,0 +1,228 @@
+.footer-wrapper {
+  background-color: #111827; /* Very dark rich blue */
+  color: #fff;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Simulated grass texture along top edge (optional feature) */
+.footer-grass-border {
+  height: 15px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    #22c55e,
+    #22c55e 10px,
+    #15803d 10px,
+    #15803d 20px
+  );
+  opacity: 0.1;
+  border-bottom: 2px solid #374151;
+}
+
+.footer-main {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  gap: 40px;
+}
+
+@media (min-width: 900px) {
+  .footer-main {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* -- LEFT SLIDER -- */
+.footer-slider-container {
+  flex: 1;
+  position: relative;
+  max-width: 600px;
+}
+
+.footer-slider {
+  position: relative;
+  height: 350px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  /* Matching the exact organic shape from image */
+  border-top-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  background-color: #1f2937;
+}
+
+.footer-slider img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: fadeIn 0.8s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #111827;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.slider-btn-left {
+  left: 0;
+  padding-left: 2px;
+  border-radius: 0 4px 4px 0;
+}
+
+.slider-btn-right {
+  right: 0;
+  padding-right: 2px;
+  border-radius: 4px 0 0 4px;
+}
+
+.slider-btn:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.slider-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* -- RIGHT CONTENT -- */
+.footer-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.footer-title-block {
+  margin-bottom: 20px;
+}
+
+.footer-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  color: #f9fafb;
+  letter-spacing: 0.5px;
+}
+
+.footer-divider-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.footer-divider-line {
+  height: 2px;
+  width: 40px;
+  background-color: #fbbf24;
+  border-radius: 2px;
+}
+
+.footer-wheat-icon {
+  width: #fbbf24;
+  color: #eab308;
+  height: 24px;
+  width: 24px;
+}
+
+.footer-subtitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #f3f4f6;
+  margin: 0;
+}
+
+.footer-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #d1d5db;
+  text-align: justify;
+  margin: 0 0 20px 0;
+}
+
+.footer-text.high-emphasis {
+  font-size: 18px;
+  color: #f3f4f6;
+  font-weight: 500;
+}
+
+.footer-text.highlighted {
+  border-left: 3px solid #fbbf24;
+  padding-left: 15px;
+  background: rgba(251, 191, 36, 0.05);
+  padding: 10px 15px;
+  border-radius: 4px;
+}
+
+.slider-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Settings mock icon matching the far right edge pattern */
+.footer-settings-icon {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ffffff;
+  color: #111827;
+  padding: 10px;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+
+.footer-settings-icon:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.footer-settings-icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* -- BOTTOM COPYRIGHT -- */
+.footer-bottom {
+  background-color: #030712;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #6b7280;
+  border-top: 1px solid #1f2937;
+}
+
+.footer-bottom p {
+  margin: 0;
+  letter-spacing: 0.5px;
+}

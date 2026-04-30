@@ -1,4 +1,7 @@
-/* Reuse the Global Background and Layout from Farmer Dashboard */
+/* =====================================================
+   ADMIN DASHBOARD — Dark Agricultural Theme
+====================================================== */
+
 .admin-dashboard-container {
     background: url("./maindashh.png") no-repeat center center / cover;
     background-attachment: fixed;
@@ -7,169 +10,173 @@
     flex-direction: column;
 }
 
-.main-layout {
-    display: flex;
-    flex-grow: 1;
-    background: rgba(0, 0, 0, 0.2);
-}
+/* Sidebar and layout reuse FarmerDashboard.css — only admin-specific styles here */
 
-/* Sidebar - Glassmorphism */
-.sidebar {
-    width: 260px;
-    background-color: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(255, 255, 255, 0.5);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-}
-
+/* Sidebar header override for admin */
 .sidebar-header {
-    padding: 20px;
-    background-color: #28a745;
-    /* Green Header */
-    color: white;
-    text-align: center;
-}
-
-.menu-item {
-    padding: 15px 20px;
-    cursor: pointer;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    color: #333;
-    transition: all 0.3s;
-    font-size: 15px;
-    font-weight: 500;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sidebar-badge {
-    background-color: #ef4444;
-    color: white;
+    padding: 18px 20px;
+    background: linear-gradient(135deg, rgba(39,174,96,0.25), rgba(26,188,156,0.15));
+    border-bottom: 1px solid rgba(39,174,96,0.2);
+    color: #2ecc71;
     font-size: 11px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 12px;
-    min-width: 20px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3);
 }
 
-.menu-item:hover {
-    background-color: rgba(40, 167, 69, 0.1);
-    color: #28a745;
-}
-
-.menu-item.active {
-    background-color: rgba(40, 167, 69, 0.2);
-    font-weight: bold;
-    border-left: 5px solid #28a745;
-    color: #28a745;
-}
-
-/* Content Area */
-.content-area {
-    flex-grow: 1;
-    padding: 30px;
-    background-color: rgba(255, 255, 255, 0.92);
-    /* Solid Card Feel */
-    overflow-y: auto;
-    margin: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Welcome Panel (Transparent for Home Tab) */
-.welcome-panel {
-    text-align: center;
-    padding: 80px 50px;
-    background: transparent;
-    color: #333;
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.welcome-panel h2 {
-    color: #28a745;
-    font-size: 36px;
-    margin-bottom: 10px;
-}
-
-/* Table Styling */
-.table-responsive {
-    overflow-x: auto;
-}
+/* =====================================================
+   TABLES — Dark Theme
+====================================================== */
+.table-responsive { overflow-x: auto; }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    background: white;
-}
-
-th,
-td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    margin-top: 16px;
+    background: transparent;
 }
 
 th {
-    background-color: #f8f9fa;
-    color: #333;
-    font-weight: 600;
-}
-
-tr:hover {
-    background-color: #f1f1f1;
-}
-
-.status {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
+    background: rgba(39,174,96,0.08);
+    color: #2ecc71;
+    font-weight: 700;
+    font-size: 11px;
     text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(39,174,96,0.2);
+    text-align: left;
+}
+
+td {
+    padding: 13px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: #c8ddef;
+    font-size: 14px;
+}
+
+td strong { color: #e8f4f8; }
+
+tr:hover td { background: rgba(39,174,96,0.05); }
+
+/* Status Badges */
+.status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: inline-block;
 }
 
 .status.pending {
-    background-color: #ffeeba;
-    color: #856404;
+    background: rgba(243,156,18,0.15);
+    color: #f39c12;
+    border: 1px solid rgba(243,156,18,0.3);
 }
 
 .status.resolved {
-    background-color: #d4edda;
-    color: #155724;
+    background: rgba(39,174,96,0.15);
+    color: #2ecc71;
+    border: 1px solid rgba(39,174,96,0.3);
 }
 
 .status.rejected {
-    background-color: #f8d7da;
-    color: #721c24;
+    background: rgba(231,76,60,0.15);
+    color: #e74c3c;
+    border: 1px solid rgba(231,76,60,0.3);
 }
 
 .status.inprogress {
-    background-color: #cce5ff;
-    color: #004085;
+    background: rgba(52,152,219,0.15);
+    color: #3498db;
+    border: 1px solid rgba(52,152,219,0.3);
 }
 
 .status-select {
-    padding: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.06);
+    color: #c8ddef;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
 }
 
 .desc-preview {
     font-size: 12px;
-    color: #666;
-    margin: 5px 0 0 0;
+    color: #4a7fa5;
+    margin: 4px 0 0 0;
     max-width: 250px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar-header { display: none; }
+    th, td { padding: 9px 10px; font-size: 12px; }
+    table { font-size: 12px; }
+}
+
+/* =====================================================
+   ADMIN SECTION HEADINGS & MISC
+====================================================== */
+.admin-section { color: #e8f4f8; }
+.admin-section h3 { color: #e8f4f8; font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+.admin-section p { color: #8aadcc; }
+
+/* Complaint media thumbnail */
+.complaint-thumb {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Status: In Progress (two words → class becomes "in") */
+.status.in {
+    background: rgba(52,152,219,0.15);
+    color: #3498db;
+    border: 1px solid rgba(52,152,219,0.3);
+}
+
+/* Admin refund hint */
+.admin-refund-hint {
+    font-size: 11px;
+    color: #6b8cae !important;
+    margin-top: 5px;
+}
+
+.admin-refund-hint strong { color: #c8ddef; }
+
+/* Status select dropdown option text */
+.status-select option {
+    background: #112240;
+    color: #c8ddef;
+}
+
+/* Admin section labels visible */
+.admin-section label {
+    color: #6b8cae;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Override any residual light background on selects inside admin tables */
+.admin-section select {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #c8ddef;
+    border-radius: 6px;
+    padding: 5px 8px;
+    outline: none;
 }

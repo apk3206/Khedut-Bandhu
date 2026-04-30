@@ -1,78 +1,101 @@
-.complaint-form-container {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+/* =====================================================
+   COMPLAINT FORM — Dark Agricultural Theme
+====================================================== */
+.complaint-form-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    background: rgba(17,34,64,0.95);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     overflow: hidden;
-    margin-bottom: 25px;
-}
-
-.form-header {
-    background-color: #28a745;
-    color: white;
-    padding: 15px 20px;
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.complaint-form {
-    padding: 25px;
-}
-
-.form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.complaint-form-card h3 {
+    background: linear-gradient(135deg, rgba(39,174,96,0.2), rgba(26,188,156,0.1));
+    border-bottom: 1px solid rgba(39,174,96,0.2);
+    color: #e8f4f8;
+    padding: 16px 20px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.complaint-form-card form {
+    padding: 24px;
+}
+
+.complaint-form-card .form-group { margin-bottom: 20px; }
+
+.complaint-form-card .form-group label {
     display: block;
     font-weight: 600;
     margin-bottom: 8px;
-    color: #333;
-    font-size: 14px;
+    color: #8aadcc;
+    font-size: 13px;
+    letter-spacing: 0.5px;
 }
 
-.form-control {
+/* Base styles for all inputs in the form */
+.complaint-form-card select,
+.complaint-form-card input[type="text"],
+.complaint-form-card textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    font-size: 14px;
+    background: rgba(255,255,255,0.06);
+    color: #e8f4f8;
+    outline: none;
+    transition: all 0.25s;
+    font-family: 'Inter', sans-serif;
+}
+
+.complaint-form-card textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.complaint-form-card select:focus,
+.complaint-form-card input[type="text"]:focus,
+.complaint-form-card textarea:focus {
+    border-color: rgba(39,174,96,0.5);
+    background: rgba(39,174,96,0.08);
+    box-shadow: 0 0 0 3px rgba(39,174,96,0.15);
+}
+
+.complaint-form-card select option {
+    background: #112240;
+    color: #e8f4f8;
+}
+
+.complaint-form-card input[type="file"] {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-    font-size: 15px;
-    transition: border-color 0.15s ease-in-out;
+    background: rgba(255,255,255,0.04);
+    border: 1px dashed rgba(255,255,255,0.2);
+    border-radius: 10px;
+    color: #8aadcc;
+    cursor: pointer;
 }
 
-.form-control:focus {
-    border-color: #28a745;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
-}
-
-.file-upload-wrapper {
-    background: #f8f9fa;
-    padding: 15px;
-    border: 1px dashed #ced4da;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.file-input {
-    width: 100%;
-}
-
-.submit-btn {
+.submit-complaint-btn {
     display: block;
     width: 100%;
-    padding: 12px;
-    background-color: #28a745;
+    padding: 14px;
+    background: linear-gradient(135deg, #27ae60, #1abc9c);
     color: white;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 700;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.25s;
+    box-shadow: 0 6px 18px rgba(39,174,96,0.3);
+    margin-top: 10px;
 }
 
-.submit-btn:hover {
-    background-color: #218838;
+.submit-complaint-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(39,174,96,0.45);
 }

@@ -1,0 +1,139 @@
+/* =====================================================
+   ORDERS — Dark Agricultural Theme
+====================================================== */
+.orders-container { padding: 20px; }
+
+.orders-container h2 {
+    color: #e8f4f8;
+    margin-bottom: 22px;
+    border-bottom: 2px solid #27ae60;
+    padding-bottom: 10px;
+    display: inline-block;
+    font-size: 22px;
+}
+
+.orders-list { display: flex; flex-direction: column; gap: 16px; }
+
+.order-card {
+    background: rgba(17,34,64,0.9);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 20px;
+    border-left: 4px solid #27ae60;
+    transition: all 0.25s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+
+.order-card:hover { transform: translateY(-3px); border-color: rgba(39,174,96,0.3); }
+.order-card.cancelled { border-left-color: #e74c3c; opacity: 0.85; }
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.order-main-info { display: flex; flex-direction: column; }
+.order-id { font-weight: 700; color: #e8f4f8; font-size: 1.05em; }
+.order-date { font-size: 0.82em; color: #4a7fa5; }
+
+/* Status Badges */
+.order-status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.order-status-badge.pending { background: rgba(243,156,18,0.15); color: #f39c12; border: 1px solid rgba(243,156,18,0.3); }
+.order-status-badge.completed { background: rgba(39,174,96,0.15); color: #2ecc71; border: 1px solid rgba(39,174,96,0.3); }
+.order-status-badge.cancelled { background: rgba(231,76,60,0.15); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
+
+/* Order Items */
+.order-items { margin-bottom: 14px; }
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    font-size: 0.92em;
+    color: #8aadcc;
+    border-bottom: 1px dashed rgba(255,255,255,0.05);
+}
+
+.order-item .item-name { flex: 2; font-weight: 500; color: #c8ddef; }
+.order-item .item-qty { flex: 1; text-align: center; color: #4a7fa5; }
+.order-item .item-price { flex: 1; text-align: right; font-weight: 600; color: #2ecc71; }
+
+/* Footer */
+.order-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.order-total { display: flex; flex-direction: column; }
+.order-total span { font-size: 0.78em; color: #4a7fa5; }
+.order-total strong { font-size: 1.25em; color: #2ecc71; }
+
+.order-payment { display: flex; flex-direction: column; align-items: flex-end; }
+.order-payment span { font-size: 0.78em; color: #4a7fa5; }
+.payment-method { font-weight: 600; color: #c8ddef; }
+
+.cancel-order-btn {
+    padding: 7px 18px;
+    background: rgba(231,76,60,0.1);
+    color: #e74c3c;
+    border: 1px solid rgba(231,76,60,0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    margin-top: 8px;
+}
+
+.cancel-order-btn:hover { background: #e74c3c; color: white; border-color: #e74c3c; }
+
+.refund-info {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    font-size: 0.82em;
+    color: #8aadcc;
+}
+
+.refund-info p { margin: 3px 0; color: #8aadcc; }
+.refund-status span { color: #2ecc71; font-weight: 700; }
+
+.view-invoice-btn {
+    padding: 7px 16px;
+    background: linear-gradient(135deg, #27ae60, #1abc9c);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 8px;
+    transition: all 0.2s;
+    font-size: 0.85em;
+    box-shadow: 0 4px 12px rgba(39,174,96,0.3);
+}
+
+.view-invoice-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(39,174,96,0.45); }
+
+@media (max-width: 600px) {
+    .order-footer { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .order-payment { align-items: flex-start; }
+    .cancel-order-btn { width: 100%; }
+}

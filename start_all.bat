@@ -29,5 +29,10 @@ if not exist node_modules\jsonwebtoken (
     call npm install jsonwebtoken
 )
 
+if not exist node_modules\razorpay (
+    echo [WARN] razorpay missing! Installing...
+    call npm install razorpay
+)
+
 node server.js
 pause

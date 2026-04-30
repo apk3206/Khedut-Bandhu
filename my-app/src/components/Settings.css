@@ -1,73 +1,130 @@
+/* =====================================================
+   SETTINGS — Dark Agricultural Theme
+====================================================== */
 .settings-container {
-    max-width: 600px;
-    margin: 20px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 30px auto;
+    background: rgba(17,34,64,0.9);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 0;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
 }
 
-.settings-container h3 {
-    margin-bottom: 20px;
-    color: #333;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+.settings-header {
+    background: linear-gradient(135deg, rgba(39,174,96,0.2), rgba(26,188,156,0.1));
+    border-bottom: 1px solid rgba(39,174,96,0.2);
+    color: #e8f4f8;
+    padding: 28px 30px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
-.settings-form .form-group {
-    margin-bottom: 15px;
+.settings-header h3 { margin: 0; font-size: 22px; font-weight: 700; color: #e8f4f8; }
+
+.settings-form { padding: 28px 30px; }
+
+.settings-section {
+    margin-bottom: 36px;
+    animation: fadeIn 0.5s ease-out;
 }
 
-.settings-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    color: #555;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.settings-form input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.settings-section h4 {
+    color: #2ecc71;
     font-size: 16px;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(39,174,96,0.3);
+    display: inline-block;
 }
 
-.settings-form .readonly-input {
-    background-color: #f9f9f9;
-    color: #777;
-    cursor: not-allowed;
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
 }
+
+.form-group { margin-bottom: 18px; }
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b8cae;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    font-size: 14px;
+    color: #e8f4f8;
+    background: rgba(255,255,255,0.05);
+    transition: all 0.25s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: rgba(39,174,96,0.5);
+    background: rgba(39,174,96,0.06);
+    box-shadow: 0 0 0 3px rgba(39,174,96,0.1);
+}
+
+.form-group .readonly-input {
+    background: rgba(255,255,255,0.02);
+    color: #3d5a73;
+    cursor: not-allowed;
+    border-style: dashed;
+}
+
+hr { border: 0; border-top: 1px solid rgba(255,255,255,0.06); margin: 36px 0; }
 
 .save-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #28a745;
+    width: auto;
+    min-width: 200px;
+    padding: 14px 40px;
+    background: linear-gradient(135deg, #27ae60, #1abc9c);
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
+    transition: all 0.25s;
+    display: block;
+    margin: 28px auto 0;
+    box-shadow: 0 6px 20px rgba(39,174,96,0.3);
 }
 
-.save-btn:hover {
-    background-color: #218838;
+.save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(39,174,96,0.45); }
+.save-btn:active { transform: translateY(0); }
+
+.message-box { margin-top: 18px; text-align: center; }
+
+.success-msg, .error-msg {
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideIn 0.3s ease-out;
 }
 
-.success-msg {
-    color: green;
-    background: #d4edda;
-    padding: 10px;
-    border-radius: 4px;
-    margin: 10px 0;
-}
+@keyframes slideIn { from { opacity: 0; scale: 0.95; } to { opacity: 1; scale: 1; } }
 
-.error-msg {
-    color: red;
-    background: #f8d7da;
-    padding: 10px;
-    border-radius: 4px;
-    margin: 10px 0;
-}
+.success-msg { color: #2ecc71; background: rgba(39,174,96,0.1); border: 1px solid rgba(39,174,96,0.25); }
+.error-msg { color: #e74c3c; background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.25); }

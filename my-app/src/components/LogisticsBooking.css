@@ -1,0 +1,215 @@
+.logistics-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(17, 34, 64, 0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    color: #e8f4f8;
+}
+
+.logistics-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.logistics-header h2 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+.logistics-header p {
+    color: #8aadcc;
+}
+
+.logistics-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+}
+
+.listings-panel {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.listings-panel h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #c8ddef;
+}
+
+.listing-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #e8f4f8;
+}
+
+.listing-item:hover {
+    transform: translateX(5px);
+    border-color: #2ecc71;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.listing-item.selected {
+    border-left: 4px solid #2ecc71;
+    background: rgba(46, 204, 113, 0.15);
+    color: #ffffff;
+    border-top: 1px solid rgba(46, 204, 113, 0.3);
+    border-right: 1px solid rgba(46, 204, 113, 0.3);
+    border-bottom: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.listing-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.status-tag {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #c8ddef;
+}
+
+.status-tag.available { 
+    background: rgba(46, 204, 113, 0.2); 
+    color: #2ecc71; 
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.booking-panel {
+    padding: 1.5rem;
+}
+
+.partner-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.partner-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s;
+    color: #e8f4f8;
+}
+
+.partner-card:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    transform: translateY(-3px);
+    background: rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.partner-main h4 {
+    margin: 0 0 0.5rem 0;
+    color: #ffffff;
+}
+
+.partner-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.rating { color: #f39c12; font-weight: bold; }
+.rate { color: #2ecc71; font-weight: bold; }
+
+.v-tag {
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-right: 8px;
+    color: #c8ddef;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.book-btn {
+    padding: 0.8rem 1.5rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.book-btn:hover {
+    background: #218838;
+}
+
+.booking-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.status-modal {
+    background: rgba(17, 34, 64, 0.95);
+    padding: 3rem;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+}
+
+.loader {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top: 5px solid #2ecc71;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 2rem;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: #2ecc71;
+    margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.empty-state, .no-selection {
+    text-align: center;
+    padding: 5rem;
+    color: #8aadcc;
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.2);
+}

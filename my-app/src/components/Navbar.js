@@ -1,20 +1,22 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./Navbar.css";
 
 const Navbar = ({ user, setUser }) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { t, i18n } = useTranslation();
     const [showLogoutConfirm, setShowLogoutConfirm] = React.useState(false);
     const [cartCount, setCartCount] = React.useState(0);
 
     React.useEffect(() => {
         const updateCartCount = () => {
-            const savedCart = localStorage.getItem("cart");
-            if (savedCart) {
-                const cart = JSON.parse(savedCart);
-                setCartCount(cart.reduce((acc, item) => acc + item.qty, 0));
+            const savedUser = localStorage.getItem("user");
+            if (savedUser) {
+                const userData = JSON.parse(savedUser);
+                const cart = userData.cart || [];
+                setCartCount(cart.reduce((acc, item) => acc + (item.quantity || item.qty || 0), 0));
             } else {
                 setCartCount(0);
             }
@@ -65,7 +67,7 @@ const Navbar = ({ user, setUser }) => {
                         <div className="navbar-user-section">
                             {user ? (
                                 <div className="user-profile-nav">
-                                    <div className="cart-nav-link" onClick={() => navigate("/dashboard/buyer")}>
+                                    <div className="cart-nav-link" onClick={() => navigate("/cart")}>
                                         <span className="cart-icon">🛒</span>
                                         {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
                                     </div>
@@ -83,9 +85,15 @@ const Navbar = ({ user, setUser }) => {
                                     </button>
                                 </div>
                             ) : (
-                                <button onClick={() => navigate("/")} className="login-nav-btn">
-                                    {t('login') || 'Login'}
-                                </button>
+                                location.pathname === "/signup" ? (
+                                    <button onClick={() => navigate("/")} className="login-nav-btn">
+                                        {t('login') || 'Login'}
+                                    </button>
+                                ) : (
+                                    <button onClick={() => navigate("/signup")} className="login-nav-btn">
+                                        {t('signup') || 'Sign Up'}
+                                    </button>
+                                )
                             )}
                         </div>
                     </div>

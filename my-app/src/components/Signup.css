@@ -1,62 +1,133 @@
-/* Inherit basic styles from Login.css but override specific form elements */
-.signup-container {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: 30px 40px;
-    width: 450px;
-    /* Wider for signup */
-    border-radius: 14px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* ======================================
+   SIGNUP-SPECIFIC ADDITIONS TO Login.css
+====================================== */
+
+/* Two-column grid for name + phone */
+.signup-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
 }
 
-.signup-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    /* Better spacing control */
+/* Select dropdown inherits field-group input styles */
+.signup-select {
+  width: 100%;
+  padding: 13px 16px 13px 42px;
+  background: #ffffff;
+  border: 1px solid rgba(39, 174, 96, 0.3);
+  border-radius: 10px;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all 0.25s ease;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    text-align: left;
+.signup-select:focus {
+  border-color: #27ae60;
+  background: #f9fffc;
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.15);
 }
 
-.form-group label {
-    margin-top: 0;
-    /* Remove default margin */
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #f0f0f0;
+/* Role hint text */
+.role-hint {
+  font-size: 11.5px;
+  color: #5a8fa8;
+  margin-top: 6px;
+  line-height: 1.5;
+  font-style: italic;
 }
 
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 6px;
-    border: none;
-    background: rgba(255, 255, 255, 0.9);
-    font-size: 14px;
-    transition: all 0.2s;
+/* Password show/hide toggle */
+.pw-toggle {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  line-height: 1;
+  width: auto !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(86, 171, 47, 0.5);
+/* Inner form wrapper keeps same spacing as login */
+.signup-form-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.signup-btn {
-    margin-top: 10px;
+/* ======================================
+   TRUST BADGES (right hero panel)
+====================================== */
+.trust-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+  text-align: left;
+}
+
+.trust-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.trust-item:hover {
+  transform: translateX(4px);
+  background: rgba(39, 174, 96, 0.1);
+  border-color: rgba(39, 174, 96, 0.3);
+}
+
+.trust-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.trust-item strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 3px;
+}
+
+.trust-item p {
+  font-size: 12px;
+  color: rgba(180, 210, 230, 0.8);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Scrollable left panel if form is tall */
+.login-left {
+  overflow-y: auto;
+  padding-top: 36px;
+  padding-bottom: 36px;
+}
+
+/* Make left panel scrollbar subtle */
+.login-left::-webkit-scrollbar {
+  width: 4px;
+}
+.login-left::-webkit-scrollbar-thumb {
+  background: rgba(39, 174, 96, 0.3);
+  border-radius: 4px;
 }

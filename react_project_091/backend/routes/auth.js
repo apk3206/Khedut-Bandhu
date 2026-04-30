@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
+const User = require("../../models/User");
 const passport = require("passport");
 
 // SIGNUP
@@ -82,20 +82,72 @@ router.get("/google/callback",
   }
 );
 
-// LOGOUT
-router.get("/logout", (req, res) => {
-  req.logout(() => {
-    res.json({ message: "Logged out successfully" });
-  });
+// OTP STORAGE (Temporary, use Redis/DB for production)
+const otps = new Map();
+
+// SEND OTP
+router.post("/send-otp", async (req, res) => {
+    try {
+        const { email, phone, type } = req.body;
+        const target = type === "sms" ? phone : email;
+
+        if (!target) return res.status(400).json({ message: "Target required" });
+
+        // Cooldown check
+        const lastSent = otps.get(target);
+        if (lastSent && Date.now() - lastSent.timestamp < 60000) {
+            return res.status(429).json({ message: "Wait 60s before resending" });
+        }
+
+        const otp = Math.floor(1000 + Math.random() * 9000).toString();
+        otps.set(target, { otp, timestamp: Date.now() });
+
+        console.log(`[OTP] Sent ${otp} to ${target} via ${type}`); // Simulated
+        
+        // In real app, call Twilio for SMS or Nodemailer for Email here
+        
+        res.json({ message: `OTP sent to ${type === 'sms' ? 'phone' : 'email'}`, expires: "5 mins" });
+    } catch (err) {
+        res.status(500).json({ message: "Failed to send OTP" });
+    }
 });
 
-// CURRENT USER
-router.get("/me", (req, res) => {
-  if (req.user) {
-    res.json({ user: req.user });
-  } else {
-    res.status(401).json({ message: "Not authenticated" });
-  }
+// VERIFY OTP & LOGIN/SIGNUP
+router.post("/verify-otp", async (req, res) => {
+    try {
+        const { target, otp, role, username, email, phone } = req.body;
+        const stored = otps.get(target);
+
+        if (!stored || stored.otp !== otp) {
+            return res.status(401).json({ message: "Invalid or expired OTP" });
+        }
+
+        if (Date.now() - stored.timestamp > 300000) {
+            otps.delete(target);
+            return res.status(401).json({ message: "OTP expired" });
+        }
+
+        otps.delete(target);
+
+        // Find or create user
+        let user = await User.findOne({ $or: [{ email: target }, { phone: target }, { phone }] });
+
+        if (!user) {
+            if (username && role) {
+                user = new User({ username, email: email || "", phone: phone || target, role });
+                await user.save();
+            } else {
+                return res.status(404).json({ message: "User not found. Please sign up." });
+            }
+        }
+
+        res.json({
+            message: "Verified successfully",
+            user: { id: user._id, username: user.username, email: user.email, role: user.role, phone: user.phone }
+        });
+    } catch (err) {
+        res.status(500).json({ message: "Verification failed" });
+    }
 });
 
 module.exports = router;

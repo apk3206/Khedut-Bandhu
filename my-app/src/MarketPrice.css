@@ -1,117 +1,65 @@
+/* =====================================================
+   MARKET PRICE PAGE — Dark Agricultural Theme
+====================================================== */
 .market-price-page {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 30px 20px;
-  background: #f5f5f5;
+  padding: 28px 20px;
+  background: transparent;
   min-height: calc(100vh - 80px);
 }
 
 .market-header {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: rgba(17,34,64,0.9);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 28px;
+  border-radius: 14px;
+  margin-bottom: 24px;
   text-align: center;
 }
 
-.market-header h2 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 32px;
-}
-
-.market-header p {
-  margin: 0;
-  color: #666;
-  font-size: 14px;
-}
+.market-header h2 { margin: 0 0 8px; color: #e8f4f8; font-size: 28px; font-weight: 800; }
+.market-header p { margin: 0; color: #6b8cae; font-size: 14px; }
 
 .price-table-container {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: rgba(17,34,64,0.9);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 24px;
+  border-radius: 14px;
   overflow-x: auto;
 }
 
-.price-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+.price-table { width: 100%; border-collapse: collapse; }
 
-.price-table thead {
-  background: #28a745;
-  color: white;
-}
+.price-table thead { background: rgba(39,174,96,0.1); }
 
 .price-table th {
-  padding: 15px;
+  padding: 13px 16px;
   text-align: left;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 11px;
+  color: #2ecc71;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: 1px solid rgba(39,174,96,0.2);
 }
 
-.price-table tbody tr {
-  border-bottom: 1px solid #e0e0e0;
-  transition: background 0.2s;
-}
+.price-table tbody tr { border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s; }
+.price-table tbody tr:hover td { background: rgba(39,174,96,0.05); }
 
-.price-table tbody tr:hover {
-  background: #f9f9f9;
-}
+.price-table td { padding: 13px 16px; font-size: 14px; color: #c8ddef; }
+.price-table .crop-name { font-weight: 600; color: #e8f4f8; }
+.price-value { font-weight: 700; color: #2ecc71; font-size: 15px; }
+.unit { color: #4a7fa5; }
+.change { font-weight: 700; }
+.change.positive { color: #2ecc71; }
+.change.negative { color: #e74c3c; }
 
-.price-table td {
-  padding: 15px;
-  font-size: 14px;
-}
-
-.crop-name {
-  font-weight: 500;
-  color: #333;
-}
-
-.price-value {
-  font-weight: 600;
-  color: #28a745;
-  font-size: 16px;
-}
-
-.unit {
-  color: #666;
-}
-
-.change {
-  font-weight: 600;
-}
-
-.change.positive {
-  color: #28a745;
-}
-
-.change.negative {
-  color: #dc3545;
-}
-
-.loading {
-  text-align: center;
-  padding: 40px;
-  font-size: 18px;
-  color: #666;
-}
+/* Remove old light-mode product-card overrides */
+.market-content table th,
+.market-content table td { color: #c8ddef !important; }
 
 @media (max-width: 768px) {
-  .price-table-container {
-    padding: 15px;
-  }
-
-  .price-table {
-    font-size: 12px;
-  }
-
-  .price-table th,
-  .price-table td {
-    padding: 10px 8px;
-  }
+  .price-table-container { padding: 14px; }
+  .price-table th, .price-table td { padding: 9px 8px; font-size: 12px; }
 }
-

@@ -1,7 +1,11 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-require("dotenv").config();
+let GoogleGenerativeAI;
+try {
+    GoogleGenerativeAI = require("@google/generative-ai").GoogleGenerativeAI;
+} catch (e) {
+    console.warn("⚠️ @google/generative-ai module not found. AI features are disabled.");
+}
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+require("dotenv").config();
 
 /**
  * Validates a complaint and determines the best department.
@@ -10,12 +14,17 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
  * @returns {Promise<{isProper: boolean, department: string, message: string}>}
  */
 const validateAndClassifyComplaint = async (subject, description) => {
+    if (!GoogleGenerativeAI) {
+        return { isProper: true, department: "Help", message: "AI validation disabled (module missing)" };
+    }
+
     try {
         if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === "PASTE_YOUR_GEMINI_API_KEY_HERE") {
             console.warn("GEMINI_API_KEY is not set. Skipping AI validation.");
-            return { isProper: true, department: "", message: "AI validation skipped (no API key)" };
+            return { isProper: true, department: "Help", message: "AI validation skipped (no API key)" };
         }
 
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
         const prompt = `
@@ -29,9 +38,8 @@ const validateAndClassifyComplaint = async (subject, description) => {
         
         Respond ONLY in JSON format like this:
         {
-            "isProper": true/false,
-            "department": "DepartmentName",
-            "reason": "Brief reason if not proper"
+            "isProper": true,
+            "department": "DepartmentName"
         }
         `;
 
@@ -39,7 +47,6 @@ const validateAndClassifyComplaint = async (subject, description) => {
         const response = await result.response;
         const text = response.text();
 
-        // Extract JSON from response (Gemini sometimes wraps it in markdown blocks)
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
             return JSON.parse(jsonMatch[0]);

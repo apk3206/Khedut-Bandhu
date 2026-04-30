@@ -44,12 +44,28 @@
     gap: 4px;
 }
 
-.crop-trend.up {
-    color: #2ecc71;
+.market-badge {
+    background: #28a745;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.3);
 }
 
-.crop-trend.down {
+.up-trend {
+    color: #2ecc71;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(46, 204, 113, 0.3);
+}
+
+.down-trend {
     color: #e74c3c;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
 }
 
 @keyframes ticker-scrolling {

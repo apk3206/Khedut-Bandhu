@@ -7,7 +7,7 @@ const subsidySchema = new mongoose.Schema({
   approvalDate: { type: Date },
   validationDate: { type: Date },
   renewalDate: { type: Date },
-  status: { type: String, enum: ['pending', 'approved', 'rejected', 'validated'], default: 'pending' },
+  status: { type: String, enum: ['Pending', 'Approved', 'Rejected', 'Validated'], default: 'Pending' },
   formLink: { type: String }
 }, { timestamps: true });
 
@@ -15,19 +15,39 @@ const orderSchema = new mongoose.Schema({
   orderId: { type: String, required: true },
   items: [{
     name: { type: String, required: true },
-    type: { type: String, enum: ['pesticide', 'crop', 'seed', 'accessory'], required: true },
+    type: { type: String, required: true },
     quantity: { type: Number, required: true },
     price: { type: Number, required: true },
     image: { type: String }
   }],
   totalAmount: { type: Number, required: true },
-  status: { type: String, enum: ['pending', 'processing', 'completed', 'cancelled'], default: 'pending' },
+  paymentMethod: { type: String, default: 'COD' },
+  deliveryCharge: { type: Number, default: 0 },
+  deliveryDetails: {
+    address: String,
+    pincode: String,
+    alternatePhone: String,
+    locationCoordinates: {
+      lat: Number,
+      lng: Number
+    }
+  },
+  status: { type: String, enum: ['Pending', 'Processing', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'], default: 'Pending' },
+  transactionId: { type: String },
+  cancelledAt: { type: Date },
+  cancellationDetails: {
+    fee: Number,
+    refundAmount: Number,
+    refundStatus: String,
+    refundETA: String,
+    userRefundUpi: String
+  },
   orderDate: { type: Date, default: Date.now }
 }, { timestamps: true });
 
 const cartItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  type: { type: String, enum: ['pesticide', 'crop', 'seed', 'accessory'], required: true },
+  type: { type: String, required: true },
   quantity: { type: Number, required: true, default: 1 },
   price: { type: Number, required: true },
   image: { type: String }
@@ -37,7 +57,7 @@ const complaintSchema = new mongoose.Schema({
   complaintId: { type: String, required: true },
   subject: { type: String, required: true },
   description: { type: String, required: true },
-  status: { type: String, enum: ['pending', 'in_progress', 'resolved', 'rejected'], default: 'pending' },
+  status: { type: String, enum: ['Pending', 'In Progress', 'Resolved', 'Rejected'], default: 'Pending' },
   submittedDate: { type: Date, default: Date.now },
   resolutionDate: { type: Date }
 }, { timestamps: true });

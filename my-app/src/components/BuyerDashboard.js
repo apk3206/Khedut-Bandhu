@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../apiConfig";
 import ComplaintForm from "./ComplaintForm";
 import FeedbackForm from "./FeedbackForm";
@@ -12,6 +13,7 @@ import "./FarmerDashboard.css"; // Reuse Farmer styles for consistency
 
 const BuyerDashboard = ({ user }) => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("dashboard");
     const [complaints, setComplaints] = useState([]);
     const [publicStats, setPublicStats] = useState(null);
@@ -39,21 +41,67 @@ const BuyerDashboard = ({ user }) => {
         try {
             const res = await fetch(`${API_BASE_URL}/api/complaint/user/${user.id}`);
             const data = await res.json();
-            setComplaints(data);
+            setComplaints(Array.isArray(data) ? data : []);
         } catch (e) {
             console.error("Failed to fetch complaints");
+            setComplaints([]);
         }
     };
 
     const fetchOrders = async () => {
         try {
-            const res = await fetch(`${API_BASE_URL}/api/user/${user.id}/orders`);
+            const userId = user?.id || user?._id || user?.user?.id || user?.user?._id;
+            const res = await fetch(`${API_BASE_URL}/api/user/orders/${userId}`);
             if (res.ok) {
                 const data = await res.json();
-                setOrders(data);
+                setOrders(Array.isArray(data.orders) ? data.orders : (Array.isArray(data) ? data : []));
             }
         } catch (e) {
             console.error("Failed to fetch orders");
+            setOrders([]);
+        }
+    };
+
+    const addToCart = async (product) => {
+        const userId = user?.id || user?._id;
+        if (!userId) return alert(t("login_to_review"));
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/user/cart/${userId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: product.name,
+                    type: product.category,
+                    quantity: 1,
+                    price: product.price,
+                    image: product.imageUrl || "/placeholder.png"
+                })
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                alert(`${t(product.name.toLowerCase()) || product.name} ${t("added_to_cart")}`);
+                
+                // Sync with localStorage
+                const profileRes = await fetch(`${API_BASE_URL}/api/user/profile/${userId}`);
+                if (profileRes.ok) {
+                    const profileData = await profileRes.json();
+                    if (profileData.user) {
+                        localStorage.setItem("user", JSON.stringify(profileData.user));
+                        window.dispatchEvent(new Event('cartUpdated'));
+                    }
+                } else {
+                    const updatedUser = { ...user, cart: data.cart || [...(user.cart || []), product] };
+                    localStorage.setItem("user", JSON.stringify(updatedUser));
+                    window.dispatchEvent(new Event('cartUpdated'));
+                }
+            } else {
+                alert(t("order_failed"));
+            }
+        } catch (err) {
+            console.error("Cart error:", err);
+            alert(t("unknown_error"));
         }
     };
 
@@ -80,14 +128,14 @@ const BuyerDashboard = ({ user }) => {
                     </div>
                     <div className={`menu-item ${activeTab === "orders" ? "active" : ""}`} onClick={() => setActiveTab("orders")}>
                         {t("my_orders")} 📦
-                        {orders.filter(o => o.status !== "Delivered").length > 0 && (
-                            <span className="sidebar-badge">{orders.filter(o => o.status !== "Delivered").length}</span>
+                        {(Array.isArray(orders) ? orders : []).filter(o => o.status !== "Delivered").length > 0 && (
+                            <span className="sidebar-badge">{(Array.isArray(orders) ? orders : []).filter(o => o.status !== "Delivered").length}</span>
                         )}
                     </div>
                     <div className={`menu-item ${activeTab === "complaints" ? "active" : ""}`} onClick={() => setActiveTab("complaints")}>
                         {t("complaints")}
-                        {complaints.filter(c => c.status === "Pending" || c.status === "In Progress").length > 0 && (
-                            <span className="sidebar-badge">{complaints.filter(c => c.status === "Pending" || c.status === "In Progress").length}</span>
+                        {(Array.isArray(complaints) ? complaints : []).filter(c => c.status === "Pending" || c.status === "In Progress").length > 0 && (
+                            <span className="sidebar-badge">{(Array.isArray(complaints) ? complaints : []).filter(c => c.status === "Pending" || c.status === "In Progress").length}</span>
                         )}
                     </div>
                     <div className={`menu-item ${activeTab === "settings" ? "active" : ""}`} onClick={() => setActiveTab("settings")}>
@@ -102,7 +150,7 @@ const BuyerDashboard = ({ user }) => {
                 </div>
 
                 {/* Content Area */}
-                <div className="content-area" style={{ backgroundColor: activeTab === "dashboard" ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.95)" }}>
+                <div className="content-area">
 
                     {activeTab === "dashboard" && (
                         <div className="welcome-panel">
@@ -123,7 +171,7 @@ const BuyerDashboard = ({ user }) => {
                     {activeTab === "market" && <MarketPlace user={user} defaultTab="buy" />}
 
                     {/* ProductList for Buying Inputs */}
-                    {activeTab === "store" && <ProductList user={user} />}
+                    {activeTab === "store" && <ProductList user={user} addToCart={addToCart} />}
 
                     {/* Complaints Section */}
                     {activeTab === "complaints" && (
@@ -147,7 +195,7 @@ const BuyerDashboard = ({ user }) => {
                                                     </a>
                                                 </div>
                                             )}
-                                            {c.adminResponse && <p style={{ background: "#f8f9fa", padding: "10px", borderLeft: "4px solid #28a745" }}><strong>Admin:</strong> {c.adminResponse}</p>}
+                                            {c.adminResponse && <p style={{ background: "rgba(39,174,96,0.1)", padding: "10px", borderLeft: "4px solid #2ecc71", color: "#2ecc71", marginTop: "10px", borderRadius: "4px" }}><strong>Admin:</strong> {c.adminResponse}</p>}
                                         </div>
                                     ))
                                 )}
@@ -176,14 +224,40 @@ const BuyerDashboard = ({ user }) => {
                                                 </span>
                                             </div>
                                             <div style={{ margin: '10px 0' }}>
-                                                {order.products.map((p, idx) => (
+                                                {(order.items || order.products || []).map((p, idx) => (
                                                     <div key={idx} style={{ fontSize: '14px', color: '#555' }}>
-                                                        {p.productId ? p.productId.name : 'Product'} x {p.quantity} - ₹{p.priceAtPurchase * p.quantity}
+                                                        {p.productId ? p.productId.name : (p.name || t("product"))} x {p.quantity} - ₹{(p.priceAtPurchase || p.price) * p.quantity}
                                                     </div>
                                                 ))}
                                             </div>
-                                            <p style={{ fontWeight: 'bold' }}>Total: ₹{order.totalAmount}</p>
-                                            <div style={{ marginTop: '10px', padding: '10px', background: '#f8f9fa', borderRadius: '5px' }}>
+                                            <p style={{ fontWeight: 'bold', color: "#28a745" }}>{t("total_amount")}: ₹{order.totalAmount}</p>
+                                            
+                                            <div style={{ marginTop: '15px' }}>
+                                                {['Confirmed', 'Delivered', 'Pending'].includes(order.status) && (
+                                                    <button 
+                                                        className="view-invoice-btn"
+                                                        style={{ background: '#28a745', color: 'white', padding: '8px 15px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+                                                        onClick={() => navigate("/invoice", { 
+                                                            state: { 
+                                                                order: order, 
+                                                                items: (order.items || order.products || []).map(p => ({ 
+                                                                    name: p.productId?.name || p.name || t("product"),
+                                                                    quantity: p.quantity,
+                                                                    price: p.priceAtPurchase || p.price
+                                                                })), 
+                                                                totalAmount: order.totalAmount, 
+                                                                deliveryCharge: order.deliveryCharge || 0, 
+                                                                paymentMethod: order.paymentMethod || "Digital", 
+                                                                date: order.createdAt || Date.now() 
+                                                            } 
+                                                        })}
+                                                    >
+                                                        🧾 {t("view_invoice") || "View Invoice"}
+                                                    </button>
+                                                )}
+                                            </div>
+
+                                            <div style={{ marginTop: '10px', padding: '10px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '5px' }}>
                                                 <p style={{ margin: 0, fontSize: '14px' }}>
                                                     <strong>🚚 Expected Delivery:</strong> {order.expectedDeliveryDate ? new Date(order.expectedDeliveryDate).toLocaleDateString() : '3-5 Business Days'}
                                                 </p>

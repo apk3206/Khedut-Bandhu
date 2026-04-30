@@ -16,6 +16,12 @@ const AdminDashboard = ({ user }) => {
     const [statsData, setStatsData] = useState(null);
     const [allOrders, setAllOrders] = useState([]);
 
+    // Filters
+    const [cStartDate, setCStartDate] = useState("");
+    const [cEndDate, setCEndDate] = useState("");
+    const [oStartDate, setOStartDate] = useState("");
+    const [oEndDate, setOEndDate] = useState("");
+
     useEffect(() => {
         if (activeTab === "complaints" || activeTab === "stats") fetchComplaints();
         if (activeTab === "users") fetchUsers();
@@ -71,9 +77,10 @@ const AdminDashboard = ({ user }) => {
                 headers: { "Authorization": `Bearer ${token}` }
             });
             const data = await res.json();
-            setComplaints(data); // Data is already filtered by backend
+            setComplaints(Array.isArray(data) ? data : []); // Data is already filtered by backend
         } catch (error) {
             console.error("Error fetching complaints:", error);
+            setComplaints([]);
         }
     }, [user.role, user.department]);
 
@@ -89,9 +96,26 @@ const AdminDashboard = ({ user }) => {
                 headers: { "Authorization": `Bearer ${token}` }
             });
             const data = await res.json();
-            setFeedbacks(data);
+            setFeedbacks(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Error fetching feedbacks:", error);
+        }
+    };
+
+    const updateFeedbackStatus = async (id, status) => {
+        const token = localStorage.getItem("token");
+        try {
+            await fetch(`${API_BASE_URL}/api/feedback/${id}/status`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ status }),
+            });
+            fetchFeedbacks();
+        } catch (error) {
+            alert("Error updating feedback status");
         }
     };
 
@@ -136,17 +160,18 @@ const AdminDashboard = ({ user }) => {
             });
             if (res.ok) {
                 const data = await res.json();
-                setAllOrders(data);
+                setAllOrders(Array.isArray(data.orders) ? data.orders : (Array.isArray(data) ? data : []));
             }
         } catch (error) {
             console.error("Error fetching all orders:", error);
+            setAllOrders([]);
         }
     };
 
     const updateOrderStatus = async (orderId, status) => {
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`/api/admin/order/${orderId}/status`, {
+            const res = await fetch(`${API_BASE_URL}/api/admin/order/${orderId}/status`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -179,8 +204,8 @@ const AdminDashboard = ({ user }) => {
                     </div>
                     <div className={`menu-item ${activeTab === "complaints" ? "active" : ""}`} onClick={() => setActiveTab("complaints")}>
                         {t("complaints")}
-                        {complaints.filter(c => c.status === "Pending").length > 0 && (
-                            <span className="sidebar-badge">{complaints.filter(c => c.status === "Pending").length}</span>
+                        {(Array.isArray(complaints) ? complaints : []).filter(c => c.status === "Pending").length > 0 && (
+                            <span className="sidebar-badge">{(Array.isArray(complaints) ? complaints : []).filter(c => c.status === "Pending").length}</span>
                         )}
                     </div>
                     <div className={`menu-item ${activeTab === "stats" ? "active" : ""}`} onClick={() => setActiveTab("stats")}>
@@ -193,15 +218,15 @@ const AdminDashboard = ({ user }) => {
                     )}
                     <div className={`menu-item ${activeTab === "feedback" ? "active" : ""}`} onClick={() => setActiveTab("feedback")}>
                         {t("feedback_suggestions")} 💡
-                        {feedbacks.filter(f => f.status === "Pending").length > 0 && (
+                        {Array.isArray(feedbacks) && feedbacks.filter(f => f.status === "Pending").length > 0 && (
                             <span className="sidebar-badge">{feedbacks.filter(f => f.status === "Pending").length}</span>
                         )}
                     </div>
                     {(user.role === "admin" || user.department === "Orders") && (
                         <div className={`menu-item ${activeTab === "orders" ? "active" : ""}`} onClick={() => setActiveTab("orders")}>
                             Orders 📦
-                            {allOrders.filter(o => o.status === "Pending").length > 0 && (
-                                <span className="sidebar-badge">{allOrders.filter(o => o.status === "Pending").length}</span>
+                            {(Array.isArray(allOrders) ? allOrders : []).filter(o => o.status === "Pending").length > 0 && (
+                                <span className="sidebar-badge">{(Array.isArray(allOrders) ? allOrders : []).filter(o => o.status === "Pending").length}</span>
                             )}
                         </div>
                     )}
@@ -220,7 +245,7 @@ const AdminDashboard = ({ user }) => {
                 </div>
 
                 {/* Content Area */}
-                <div className="content-area" style={{ backgroundColor: activeTab === "dashboard" ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.95)" }}>
+                <div className="content-area">
                     {activeTab === "dashboard" && (
                         <div className="welcome-panel">
                             <h2 style={{ color: "white", textShadow: "2px 2px 4px rgba(0,0,0,0.6)" }}>{t("welcome")}, {user.username}</h2>
@@ -228,9 +253,26 @@ const AdminDashboard = ({ user }) => {
                         </div>
                     )}
 
-                    {activeTab === "complaints" && (
+                    {activeTab === "complaints" && (() => {
+                        const filteredComplaints = (Array.isArray(complaints) ? complaints : []).filter(c => {
+                            if (!cStartDate && !cEndDate) return true;
+                            const cDate = new Date(c.createdAt || c.date);
+                            if (cStartDate && cDate < new Date(cStartDate)) return false;
+                            if (cEndDate) {
+                                const endDate = new Date(cEndDate);
+                                endDate.setHours(23, 59, 59, 999);
+                                if (cDate > endDate) return false;
+                            }
+                            return true;
+                        });
+                        return (
                         <div className="admin-section">
                             <h3>{t("complaints")} Management</h3>
+                            <div className="filters" style={{ marginBottom: "15px", display: "flex", gap: "10px", alignItems: "center" }}>
+                                <label style={{ color: "#6b8cae", fontWeight: 600, fontSize: "12px" }}>FROM: <input type="date" value={cStartDate} onChange={(e) => setCStartDate(e.target.value)} style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.06)", color: "#e8f4f8" }} /></label>
+                                <label style={{ color: "#6b8cae", fontWeight: 600, fontSize: "12px" }}>TO: <input type="date" value={cEndDate} onChange={(e) => setCEndDate(e.target.value)} style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.06)", color: "#e8f4f8" }} /></label>
+                                <span style={{ marginLeft: "10px", fontWeight: 700, color: "#2ecc71" }}>Showing {filteredComplaints.length} complaints</span>
+                            </div>
                             <div className="table-responsive">
                                 <table>
                                     <thead>
@@ -244,10 +286,10 @@ const AdminDashboard = ({ user }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {complaints.length === 0 ? (
-                                            <tr><td colSpan="5">No complaints found.</td></tr>
+                                        {filteredComplaints.length === 0 ? (
+                                            <tr><td colSpan="6">No complaints found.</td></tr>
                                         ) : (
-                                            complaints.map(c => (
+                                            filteredComplaints.map(c => (
                                                 <tr key={c._id}>
                                                     <td>{c.userId?.username || "Unknown"}</td>
                                                     <td>{c.department || "General"}</td>
@@ -286,7 +328,7 @@ const AdminDashboard = ({ user }) => {
                                 </table>
                             </div>
                         </div>
-                    )}
+                    )})()}
 
                     {activeTab === "feedback" && (
                         <div className="admin-section">
@@ -328,9 +370,20 @@ const AdminDashboard = ({ user }) => {
                                                         ) : "-"}
                                                     </td>
                                                     <td>
-                                                        <span className={`status ${f.status === "Pending" ? "rejected" : "resolved"}`}>
+                                                        <span className={`status ${f.status === "Pending" ? "pending" : f.status === "Rejected" ? "rejected" : "resolved"}`} style={{ display: 'inline-block', marginBottom: '5px' }}>
                                                             {f.status}
                                                         </span>
+                                                        <br />
+                                                        <select
+                                                            onChange={(e) => updateFeedbackStatus(f._id, e.target.value)}
+                                                            className="status-select"
+                                                            value={f.status || "Pending"}
+                                                            style={{ padding: '5px', borderRadius: '4px', marginTop: '5px' }}
+                                                        >
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Resolved">Resolved</option>
+                                                            <option value="Rejected">Rejected</option>
+                                                        </select>
                                                     </td>
                                                 </tr>
                                             ))
@@ -402,9 +455,29 @@ const AdminDashboard = ({ user }) => {
                         </div>
                     )}
 
-                    {activeTab === "orders" && (
+                    {activeTab === "orders" && (() => {
+                        const filteredOrders = (Array.isArray(allOrders) ? allOrders : []).filter(o => {
+                            if (!oStartDate && !oEndDate) return true;
+                            const oDate = new Date(o.createdAt || o.orderDate);
+                            if (oStartDate && oDate < new Date(oStartDate)) return false;
+                            if (oEndDate) {
+                                const endDate = new Date(oEndDate);
+                                endDate.setHours(23, 59, 59, 999);
+                                if (oDate > endDate) return false;
+                            }
+                            return true;
+                        });
+                        const purchasesCount = filteredOrders.length;
+                        const cancellationsCount = filteredOrders.filter(o => o.status === 'Cancelled').length;
+
+                        return (
                         <div className="admin-section">
                             <h3>Orders Management</h3>
+                            <div className="filters" style={{ marginBottom: "15px", display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+                                <label style={{ color: "#6b8cae", fontWeight: 600, fontSize: "12px" }}>FROM: <input type="date" value={oStartDate} onChange={(e) => setOStartDate(e.target.value)} style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.06)", color: "#e8f4f8" }} /></label>
+                                <label style={{ color: "#6b8cae", fontWeight: 600, fontSize: "12px" }}>TO: <input type="date" value={oEndDate} onChange={(e) => setOEndDate(e.target.value)} style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.06)", color: "#e8f4f8" }} /></label>
+                                <span style={{ marginLeft: "10px", fontWeight: 700, color: "#2ecc71" }}>Total Purchases: {purchasesCount} | Cancellations: {cancellationsCount}</span>
+                            </div>
                             <div className="table-responsive">
                                 <table>
                                     <thead>
@@ -413,26 +486,42 @@ const AdminDashboard = ({ user }) => {
                                             <th>User</th>
                                             <th>Items</th>
                                             <th>Total</th>
+                                            <th>Payment Info</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {allOrders.length === 0 ? (
-                                            <tr><td colSpan="6">No orders found.</td></tr>
+                                        {filteredOrders.length === 0 ? (
+                                            <tr><td colSpan="7">No orders found.</td></tr>
                                         ) : (
-                                            allOrders.map(order => (
+                                            filteredOrders.map(order => (
                                                 <tr key={order._id}>
                                                     <td>#{order._id.substring(order._id.length - 6).toUpperCase()}</td>
                                                     <td>{order.userId?.username || "Unknown"}</td>
                                                     <td>{order.products.length} Items</td>
                                                     <td>₹{order.totalAmount}</td>
-                                                    <td><span className={`status ${order.status?.toLowerCase() || 'pending'}`}>{order.status || 'Pending'}</span></td>
+                                                    <td>
+                                                        <div style={{ fontSize: '11px' }}>
+                                                            <strong>{order.paymentMethod}</strong><br/>
+                                                            {order.transactionId && <span style={{ color: '#28a745' }}>ID: {order.transactionId}</span>}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span className={`status ${order.status?.toLowerCase() || 'pending'}`}>{order.status || 'Pending'}</span>
+                                                        {order.status === 'Cancelled' && order.cancellationDetails && (
+                                                            <div className="admin-refund-hint" style={{ fontSize: '11px', marginTop: '5px', color: '#666' }}>
+                                                                UPI: <strong>{order.cancellationDetails.userRefundUpi}</strong><br/>
+                                                                Refund: <strong>₹{order.cancellationDetails.refundAmount}</strong>
+                                                            </div>
+                                                        )}
+                                                    </td>
                                                     <td>
                                                         <select
-                                                            onChange={(e) => updateOrderStatus(order._id, e.target.value)}
+                                                            onChange={(e) => updateOrderStatus(order.orderId, e.target.value)}
                                                             className="status-select"
                                                             value={order.status || "Pending"}
+                                                            style={{ padding: '5px', borderRadius: '4px' }}
                                                         >
                                                             <option value="Pending">Pending</option>
                                                             <option value="Processing">Processing</option>
@@ -440,6 +529,18 @@ const AdminDashboard = ({ user }) => {
                                                             <option value="Delivered">Delivered</option>
                                                             <option value="Cancelled">Cancelled</option>
                                                         </select>
+                                                        
+                                                        {order.status === 'Cancelled' && order.cancellationDetails && (
+                                                            <div style={{ marginTop: '10px' }}>
+                                                                <a 
+                                                                    href={`upi://pay?pa=${order.cancellationDetails.userRefundUpi}&pn=${order.userId?.username || 'User'}&am=${order.cancellationDetails.refundAmount}&cu=INR`}
+                                                                    className="verify-small-btn"
+                                                                    style={{ background: '#28a745', textDecoration: 'none', display: 'inline-block', fontSize: '11px', padding: '5px 10px' }}
+                                                                >
+                                                                    💰 Refund via UPI
+                                                                </a>
+                                                            </div>
+                                                        )}
                                                     </td>
                                                 </tr>
                                             ))
@@ -448,7 +549,7 @@ const AdminDashboard = ({ user }) => {
                                 </table>
                             </div>
                         </div>
-                    )}
+                    )})()}
 
                     {activeTab === "products" && (
                         <ProductManagement user={user} />
@@ -467,6 +568,7 @@ const ProductManagement = ({ user }) => {
     const [products, setProducts] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
+    const [priceFilter, setPriceFilter] = useState("");
 
     useEffect(() => {
         fetchProducts();
@@ -498,20 +600,36 @@ const ProductManagement = ({ user }) => {
         setEditingProduct(null);
     };
 
+    const filteredProducts = products.filter(p => {
+        if (!priceFilter) return true;
+        if (priceFilter === "low") return p.price < 500;
+        if (priceFilter === "medium") return p.price >= 500 && p.price <= 1500;
+        if (priceFilter === "high") return p.price > 1500;
+        return true;
+    });
+
     return (
         <div className="admin-section">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
                 <h3>Product Management {user.role === "dept_admin" && `(${user.department})`}</h3>
-                <button
-                    onClick={() => {
-                        if (showAddForm) handleFormClose();
-                        else setShowAddForm(true);
-                    }}
-                    className="add-btn"
-                    style={{ padding: "10px", background: "#28a745", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}
-                >
-                    {showAddForm ? "Close Form" : "+ Add Product"}
-                </button>
+                <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
+                    <select value={priceFilter} onChange={(e) => setPriceFilter(e.target.value)} style={{ padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}>
+                        <option value="">All Prices</option>
+                        <option value="low">Low (Under ₹500)</option>
+                        <option value="medium">Medium (₹500 - ₹1500)</option>
+                        <option value="high">High (Over ₹1500)</option>
+                    </select>
+                    <button
+                        onClick={() => {
+                            if (showAddForm) handleFormClose();
+                            else setShowAddForm(true);
+                        }}
+                        className="add-btn"
+                        style={{ padding: "10px", background: "#28a745", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}
+                    >
+                        {showAddForm ? "Close Form" : "+ Add Product"}
+                    </button>
+                </div>
             </div>
 
             {showAddForm && (
@@ -536,10 +654,10 @@ const ProductManagement = ({ user }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.length === 0 ? (
+                        {filteredProducts.length === 0 ? (
                             <tr><td colSpan="6">No products found.</td></tr>
                         ) : (
-                            products.map(p => (
+                            filteredProducts.map(p => (
                                 <tr key={p._id}>
                                     <td><img src={p.imageUrl || "https://via.placeholder.com/50"} alt="" style={{ width: "50px", height: "50px", objectFit: "cover" }} /></td>
                                     <td>{p.name}</td>

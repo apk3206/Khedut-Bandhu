@@ -1,107 +1,92 @@
+/* =====================================================
+   PESTICIDE / SEEDS PAGE — Dark Agricultural Theme
+====================================================== */
 .pesticide-page,
 .seeds-page {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 30px 20px;
-  background: #f5f5f5;
+  padding: 28px 20px;
+  background: transparent;
   min-height: calc(100vh - 80px);
 }
 
 .page-header {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: rgba(17,34,64,0.9);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 28px;
+  border-radius: 14px;
+  margin-bottom: 24px;
   text-align: center;
 }
 
-.page-header h2 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 32px;
-}
+.page-header h2 { margin: 0 0 8px; color: #e8f4f8; font-size: 28px; font-weight: 800; }
+.page-header p { margin: 0; color: #6b8cae; font-size: 15px; }
 
-.page-header p {
-  margin: 0;
-  color: #666;
-  font-size: 16px;
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.product-card {
-  background: white;
-  border-radius: 8px;
+/* Product cards — reuse ProductList dark theme but override here too for specificity */
+.pesticide-page .product-card,
+.seeds-page .product-card {
+  background: rgba(17,34,64,0.9);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
 
-.product-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transform: translateY(-3px);
+.pesticide-page .product-card:hover,
+.seeds-page .product-card:hover {
+  border-color: rgba(39,174,96,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.4);
 }
 
 .product-image {
-  height: 150px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 160px;
+  background: linear-gradient(135deg, #1a3a6c 0%, #1e4d8e 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  font-size: 56px;
 }
 
-.product-info {
-  padding: 20px;
-}
+.pesticide-page .product-info,
+.seeds-page .product-info { padding: 18px; }
 
-.product-info h3 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 16px;
-}
+.pesticide-page .product-info h3,
+.seeds-page .product-info h3 { margin: 0 0 8px; color: #e8f4f8; font-size: 15px; font-weight: 700; }
 
-.product-description {
-  color: #666;
-  font-size: 13px;
-  margin-bottom: 15px;
-  line-height: 1.5;
-}
-
-.product-price {
-  font-size: 24px;
-  font-weight: bold;
-  color: #28a745;
-  margin-bottom: 15px;
-}
+.product-description { color: #8aadcc; font-size: 12.5px; margin-bottom: 14px; line-height: 1.6; }
+.product-price { font-size: 22px; font-weight: 800; color: #2ecc71; margin-bottom: 14px; }
 
 .btn-add-cart {
   width: 100%;
-  padding: 12px;
-  background: #28a745;
+  padding: 11px;
+  background: linear-gradient(135deg, #27ae60, #1abc9c);
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s;
+  box-shadow: 0 4px 14px rgba(39,174,96,0.3);
 }
 
-.btn-add-cart:hover {
-  background: #218838;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.btn-add-cart:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(39,174,96,0.45); }
+
+.btn-secondary {
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #8aadcc;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
 }
+
+.btn-secondary:hover { background: rgba(255,255,255,0.1); color: #c8ddef; }
 
 @media (max-width: 768px) {
-  .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
+  .pesticide-page .products-grid,
+  .seeds-page .products-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
 }
-

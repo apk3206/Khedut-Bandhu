@@ -50,7 +50,7 @@ const AnalyticsDashboard = ({ stats, userRole }) => {
     const LINE_COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#0088fe", "#00c49f", "#ffbb28", "#ff8042"];
 
     return (
-        <div className="analytics-dashboard" style={{ padding: "20px", background: "#f8f9fa", borderRadius: "15px" }}>
+        <div className="analytics-dashboard" style={{ padding: "10px", background: "transparent", borderRadius: "15px" }}>
             <h3 style={{ borderBottom: "1px solid #ddd", paddingBottom: "10px", marginBottom: "25px", color: "#444" }}>{t("stat_title")}</h3>
 
             {/* --- TOP METRICS ROW --- */}
@@ -179,6 +179,48 @@ const AnalyticsDashboard = ({ stats, userRole }) => {
                             </div>
                         )}
                     </div>
+                </div>
+
+                {/* --- REGIONAL YIELD HEATMAP (SIMULATED) --- */}
+                <div className="chart-box" style={{ flex: "1 1 100%", background: "white", padding: "20px", borderRadius: "12px", boxShadow: "0 5px 15px rgba(0,0,0,0.05)" }}>
+                    <h5 style={{ color: "#555", marginBottom: "15px", fontSize: "0.9em" }}>Regional Production Intensity (Heatmap View)</h5>
+                    <div style={{ height: "300px", width: "100%" }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                                layout="vertical"
+                                data={[
+                                    { region: "Saurashtra", intensity: 85, color: "#15803d" },
+                                    { region: "North Gujarat", intensity: 65, color: "#22c55e" },
+                                    { region: "Central Gujarat", intensity: 45, color: "#4ade80" },
+                                    { region: "South Gujarat", intensity: 75, color: "#16a34a" },
+                                    { region: "Kutch", intensity: 30, color: "#86efac" }
+                                ]}
+                                margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f0f0f0" />
+                                <XAxis type="number" hide />
+                                <YAxis type="category" dataKey="region" tick={{ fontSize: 12, fontWeight: 600 }} width={120} />
+                                <Tooltip 
+                                    cursor={{ fill: '#f8f8f8' }}
+                                    formatter={(value) => [`${value}% Intensity`, 'Production']}
+                                />
+                                <Bar dataKey="intensity" radius={[0, 4, 4, 0]} barSize={35}>
+                                    {
+                                        [
+                                            { region: "Saurashtra", intensity: 85, color: "#15803d" },
+                                            { region: "North Gujarat", intensity: 65, color: "#22c55e" },
+                                            { region: "Central Gujarat", intensity: 45, color: "#4ade80" },
+                                            { region: "South Gujarat", intensity: 75, color: "#16a34a" },
+                                            { region: "Kutch", intensity: 30, color: "#86efac" }
+                                        ].map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                        ))
+                                    }
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <p style={{ fontSize: "0.75em", color: "#888", marginTop: "10px", textAlign: "right" }}>* Live sensor data from regional nodal centers</p>
                 </div>
 
             </div>

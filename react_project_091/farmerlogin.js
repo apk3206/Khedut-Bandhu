@@ -58,3 +58,26 @@ verifyOtpBtn.addEventListener("click", async () => {
   // // ✅ Redirect AFTER storing user
   // window.location.href = "http://localhost:3001/dashboard";
 });
+
+    document.getElementById("biometricBtn").addEventListener("click", () => {
+        const userField = document.getElementById("username").value;
+        if (!userField) {
+            alert("Please enter your username/email first to identify your biometric key.");
+            return;
+        }
+
+        // Simulate WebAuthn/Biometric Prompt
+        const status = confirm("Use your device's fingerprint or face recognition to sign in as '" + userField + "'?");
+        if (status) {
+            alert("✅ Biometric Authentication Successful!");
+            // Mock a successful login redirect
+            const mockUser = {
+                id: "65e1234567890abcdef12345",
+                username: userField,
+                role: "farmer",
+                email: userField.includes("@") ? userField : userField + "@example.com",
+                cart: []
+            };
+            window.location.href = "http://localhost:3001/dashboard?user=" + encodeURIComponent(JSON.stringify(mockUser));
+        }
+    });

@@ -162,4 +162,38 @@ router.get("/stats/dept/:dataset", isAdmin, async (req, res) => {
   }
 });
 
+// 📦 GET ALL ORDERS
+router.get("/orders/all", isAdmin, async (req, res) => {
+  try {
+    const orders = await Order.find().populate("userId", "username email").sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 🔄 UPDATE ORDER STATUS (Global)
+router.put("/order/:orderId/status", isAdmin, async (req, res) => {
+  try {
+    const { status } = req.body;
+    const order = await Order.findOneAndUpdate(
+      { orderId: req.params.orderId },
+      { status },
+      { new: true }
+    );
+    
+    // Also sync back to User's nested orders for consistency
+    if (order) {
+        await User.updateOne(
+          { _id: order.userId, "orders.orderId": order.orderId },
+          { $set: { "orders.$.status": status } }
+        );
+    }
+    
+    res.json({ message: "Order status updated", order });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

@@ -26,8 +26,12 @@ const landSchema = new mongoose.Schema(
         district: { type: String, required: true },
         taluka: { type: String },
         village: { type: String, required: true },
+        city: { type: String }, // NEW
+        address: { type: String }, // NEW
+        pincode: { type: String }, // NEW
 
         // Land Info
+        landNumber: { type: String }, // NEW
         surveyNumber: { type: String },
         area: { type: Number }, // in acres or guntha
         soilType: { type: String }, // e.g., Black, Red, Alluvial

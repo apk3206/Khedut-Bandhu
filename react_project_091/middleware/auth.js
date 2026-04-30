@@ -19,4 +19,16 @@ const auth = async (req, res, next) => {
     }
 };
 
-module.exports = auth;
+// Middleware to restrict access by role
+const checkRole = (roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({ 
+                error: "Access Denied: You do not have the required permissions for this action." 
+            });
+        }
+        next();
+    };
+};
+
+module.exports = { auth, checkRole };

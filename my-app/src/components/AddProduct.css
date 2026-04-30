@@ -1,58 +1,65 @@
+/* =====================================================
+   ADD PRODUCT FORM — Dark Agricultural Theme
+====================================================== */
 .add-product-form {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    background: rgba(17,34,64,0.9);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    max-width: 520px;
     margin: 20px auto;
 }
 
 .add-product-form label {
     display: block;
-    margin-top: 10px;
-    font-weight: bold;
-    color: #333;
+    margin-top: 12px;
+    font-weight: 600;
+    color: #6b8cae;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
 }
 
 .add-product-form input,
 .add-product-form select,
 .add-product-form textarea {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 10px 14px;
+    margin-top: 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    color: #e8f4f8;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.25s;
 }
 
-.add-product-form .row {
-    display: flex;
-    gap: 15px;
+.add-product-form input:focus,
+.add-product-form select:focus,
+.add-product-form textarea:focus {
+    border-color: rgba(39,174,96,0.5);
+    background: rgba(39,174,96,0.06);
+    box-shadow: 0 0 0 3px rgba(39,174,96,0.1);
 }
 
-.add-product-form .row div {
-    flex: 1;
+.add-product-form .row { display: flex; gap: 14px; }
+.add-product-form .row div { flex: 1; }
+.add-product-form .buttons { margin-top: 20px; display: flex; justify-content: space-between; gap: 12px; }
+
+.add-product-form .save-btn {
+    background: linear-gradient(135deg, #27ae60, #1abc9c);
+    color: white; padding: 11px 18px; border: none; border-radius: 10px;
+    cursor: pointer; font-weight: 700; box-shadow: 0 4px 14px rgba(39,174,96,0.3);
 }
 
-.add-product-form .buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.save-btn {
-    background: #28a745;
-    color: white;
-    padding: 10px 15px;
-    border: none;
+.add-product-form .cancel-btn {
+    background: rgba(231,76,60,0.1);
+    color: #e74c3c;
+    border: 1px solid rgba(231,76,60,0.3);
+    padding: 11px 18px;
+    border-radius: 10px;
     cursor: pointer;
-    border-radius: 5px;
-}
-
-.cancel-btn {
-    background: #dc3545;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+    font-weight: 700;
 }

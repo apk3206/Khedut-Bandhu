@@ -1,103 +1,68 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../apiConfig";
 import { useTranslation } from "react-i18next";
 import Cart from "./Cart";
-import Checkout from "./Checkout";
 import "./ProductList.css";
 
-const ProductList = ({ user }) => {
+const ProductList = ({ user, addToCart }) => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
-    const [cart, setCart] = useState([]);
-    const [view, setView] = useState("list"); // list, cart, checkout
+    const [view, setView] = useState("list"); // list, cart
     const [filter, setFilter] = useState("All");
+    const [priceFilter, setPriceFilter] = useState("all"); // All, Low, Medium, High
+    const [stockFilter, setStockFilter] = useState("all"); // all, in, out
 
     // Detailed View & Review States
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [userRating, setUserRating] = useState(5);
     const [userComment, setUserComment] = useState("");
+    const [journey, setJourney] = useState([]);
+    const [loadingJourney, setLoadingJourney] = useState(false);
 
-    // Load Cart from LocalStorage on mount
+    // Load products on mount
     useEffect(() => {
-        const savedCart = localStorage.getItem("cart");
-        if (savedCart) setCart(JSON.parse(savedCart));
         fetchProducts();
     }, []);
-
-    // Save Cart to LocalStorage whenever it changes
-    useEffect(() => {
-        localStorage.setItem("cart", JSON.stringify(cart));
-        window.dispatchEvent(new Event("cartUpdated"));
-    }, [cart]);
 
     const fetchProducts = async () => {
         try {
             const res = await fetch(`${API_BASE_URL}/api/products`); // Use proxy
             const data = await res.json();
-            setProducts(data);
+            setProducts(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error("Failed to fetch products", err);
         }
     };
 
-    const addToCart = (product) => {
-        // Check if already in cart
-        const existing = cart.find(item => item._id === product._id);
-        if (existing) {
-            setCart(cart.map(item => item._id === product._id ? { ...item, qty: item.qty + 1 } : item));
-        } else {
-            setCart([...cart, { ...product, qty: 1 }]);
-        }
-        alert(`${t(product.name.toLowerCase())} ${t("added_to_cart")}`);
-    };
+    // The addToCart function is now passed as a prop, so the internal definition is removed.
+    // If the user intended to keep an internal addToCart and also pass one, this would be a conflict.
+    // Assuming the prop version is the intended one to use.
 
-    const removeFromCart = (index) => {
-        const newCart = [...cart];
-        newCart.splice(index, 1);
-        setCart(newCart);
-    };
-
-    const handleBuyNow = (product) => {
-        addToCart(product);
+    const removeFromCart = async (index) => {
+        // Redirect to cart view where removal is handled properly
         setView("cart");
     };
 
-    const handleConfirmOrder = async (details) => {
-        const orderData = {
-            userId: user.id || user._id,
-            products: cart.map(p => ({ productId: p._id, quantity: p.qty, priceAtPurchase: p.price })),
-            totalAmount: details.finalTotal, // Use calculated total from checkout
-            paymentMethod: details.paymentMethod,
-            deliveryCharge: details.deliveryCharge,
-            deliveryDetails: {
-                address: details.address,
-                pincode: details.pincode,
-                alternatePhone: details.alternatePhone,
-                locationCoordinates: { lat: details.lat, lng: details.lng }
-            }
-        };
-
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/user/order`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(orderData)
-            });
-            if (res.ok) {
-                alert(t("order_placed_success"));
-                setCart([]);
-                setView("list");
-            } else {
-                const errorData = await res.json();
-                console.error("Server Error:", errorData);
-                alert(`${t("order_failed")}: ${errorData.error || t("unknown_error")}`);
-            }
-        } catch (err) {
-            console.error("Network Error:", err);
-            alert(t("error_placing_order") + ": " + err.message);
-        }
+    const handleBuyNow = async (product) => {
+        await addToCart(product);
+        setView("cart");
     };
 
+
+
+    const fetchJourney = async (productId) => {
+        setLoadingJourney(true);
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/blockchain/journey/${productId}`);
+            const data = await res.json();
+            setJourney(Array.isArray(data) ? data : []);
+        } catch (err) {
+            console.error("Failed to fetch journey", err);
+        }
+        setLoadingJourney(false);
+    };
     const submitReview = async (productId) => {
         if (!user) {
             alert(t("login_to_review"));
@@ -126,43 +91,67 @@ const ProductList = ({ user }) => {
         }
     };
 
-    const filteredProducts = products.filter(p => filter === "All" || p.category === filter);
+    const filteredProducts = products.filter(p => {
+        const catMatch = filter === "All" || p.category === filter;
+        if (!catMatch) return false;
+
+        const priceMatch = (() => {
+            if (priceFilter === "all") return true;
+            if (priceFilter === "low") return p.price < 500;
+            if (priceFilter === "medium") return p.price >= 500 && p.price <= 1500;
+            if (priceFilter === "high") return p.price > 1500;
+            return true;
+        })();
+        if (!priceMatch) return false;
+
+        const stockMatch = (() => {
+            if (stockFilter === "all") return true;
+            if (stockFilter === "in") return p.stock > 0;
+            if (stockFilter === "out") return p.stock === 0;
+            return true;
+        })();
+        return stockMatch;
+    });
 
     if (view === "cart") {
         return (
             <div className="product-list-container">
                 <button onClick={() => setView("list")} className="back-btn">← {t("back_to_shopping")}</button>
-                <Cart cartItems={cart} onRemove={removeFromCart} onCheckout={() => setView("checkout")} />
+                <Cart user={user} cartItems={user?.cart || []} onRemove={removeFromCart} onCheckout={() => navigate("/checkout")} />
             </div>
         );
     }
 
-    if (view === "checkout") {
-        return (
-            <div className="product-list-container">
-                <Checkout
-                    cartItems={cart}
-                    total={cart.reduce((sum, item) => sum + item.price * item.qty, 0)}
-                    onConfirmOrder={handleConfirmOrder}
-                    onCancel={() => setView("cart")}
-                />
-            </div>
-        );
-    }
+    const cartCount = (user?.cart || []).reduce((acc, item) => acc + (item.quantity || item.qty || 0), 0);
 
     return (
         <div className="product-list-container">
             <div className="header-row">
                 <h2 className="section-title">{t("buy_products_header")}</h2>
                 <button className="view-cart-btn" onClick={() => setView("cart")}>
-                    🛒 {t("cart")} ({cart.reduce((acc, item) => acc + item.qty, 0)})
+                    🛒 {t("cart")} ({cartCount})
                 </button>
             </div>
 
-            <div className="category-filter">
-                {["All", "Seed", "Pesticide", "Tool"].map(cat => (
-                    <button key={cat} className={filter === cat ? "active" : ""} onClick={() => setFilter(cat)}>{t(cat.toLowerCase())}</button>
-                ))}
+            <div className="filter-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                <div className="category-filter" style={{ display: 'flex', gap: '10px' }}>
+                    {["All", "Seed", "Pesticide", "Tool"].map(cat => (
+                        <button key={cat} className={filter === cat ? "active" : ""} onClick={() => setFilter(cat)}>{t(cat.toLowerCase())}</button>
+                    ))}
+                </div>
+                <div className="filter-group">
+                    <select onChange={(e) => setPriceFilter(e.target.value)}>
+                        <option value="all">{t("all_prices") || "All Prices"}</option>
+                        <option value="low">{t("low_price") || "Low (< ₹500)"}</option>
+                        <option value="medium">{t("medium_price") || "Medium (₹500 - ₹1500)"}</option>
+                        <option value="high">{t("high_price") || "High (> ₹1500)"}</option>
+                    </select>
+                    <select onChange={(e) => setStockFilter(e.target.value)}>
+                        <option value="all">{t("all") || "All"}</option>
+                        <option value="in">{t("in_stock") || "In Stock"}</option>
+                        <option value="out">{t("out_of_stock") || "Out of Stock"}</option>
+                    </select>
+                </div>
             </div>
 
             <div className="products-grid">
@@ -170,23 +159,31 @@ const ProductList = ({ user }) => {
                     <div key={product._id} className="product-card">
                         <img
                             src={product.imageUrl ? product.imageUrl : "/placeholder.png"}
-                            alt={t(product.name.toLowerCase())}
+                            alt={product.name ? t(product.name.toLowerCase()) : ""}
                             className="product-image"
                             onError={(e) => e.target.src = "https://via.placeholder.com/150?text=No+Image"}
                         />
                         <div className="product-info">
-                            <h4>{t(product.name.toLowerCase())}</h4>
-                            <p className="category-tag">{t(product.category.toLowerCase())}</p>
+                                <h3>{product.name ? t(product.name.toLowerCase()) : product.name}</h3>
+                                <p className="category-badge">{product.category ? t(product.category.toLowerCase()) : product.category}</p>
                             <div className="price-row">
                                 <span className="price">₹{product.price}</span>
-                                <span className="stock">{product.stock > 0 ? t("in_stock") : t("out_of_stock")}</span>
+                                    <span className={`stock-status ${product.stock > 0 ? 'in' : 'out'}`}>
+                                        {product.stock > 0 ? t("in_stock") : t("out_of_stock")}
+                                    </span>
                             </div>
                             {product.averageRating > 0 && (
                                 <div className="rating-badge">⭐ {product.averageRating} ({product.ratingCount})</div>
                             )}
                             <div className="card-actions">
-                                <button className="details-btn" onClick={() => setSelectedProduct(product)}>{t("view_details")}</button>
-                                <button className="buy-btn" onClick={() => handleBuyNow(product)}>{t("buy_now")}</button>
+                                <button className="details-btn" onClick={() => setSelectedProduct(product)}>{t("detail_btn") || "View Details"}</button>
+                                    <button 
+                                        className="buy-btn" 
+                                        onClick={() => addToCart(product)} 
+                                        disabled={product.stock === 0}
+                                    >
+                                        {t("buy_now_btn") || "Buy Now"}
+                                    </button>
                             </div>
                         </div>
                     </div>
@@ -213,42 +210,66 @@ const ProductList = ({ user }) => {
                             </div>
 
                             <div className="modal-right">
-                                <h2>{t(selectedProduct.name.toLowerCase())}</h2>
+                                <h2>{selectedProduct.name ? t(selectedProduct.name.toLowerCase()) : ""}</h2>
                                 <p className="desc">{t(selectedProduct.description ? selectedProduct.description.toLowerCase() : "") || selectedProduct.description}</p>
+                                <div className="detailed-info">
+                                    {selectedProduct.type && (
+                                        <p><strong>{t("type") || "Type"}:</strong> {t(selectedProduct.type.toLowerCase())}</p>
+                                    )}
+                                    {selectedProduct.usedFor && selectedProduct.usedFor.length > 0 && (
+                                        <p><strong>{t("used_for") || "Used For"}:</strong> {selectedProduct.usedFor.map(u => u ? (t(u.toLowerCase()) || u) : "").join(", ")}</p>
+                                    )}
+                                    {selectedProduct.howToUse && selectedProduct.howToUse.length > 0 && (
+                                        <div className="usage-info">
+                                            <strong>{selectedProduct.category === "Seed" ? (t("how_to_grow") || "How to Grow/Use") : (t("how_to_use") || "How to Use")}:</strong>
+                                            <ul>
+                                                {selectedProduct.howToUse.map((step, i) => (
+                                                    <li key={i}>{t(step.toLowerCase()) || step}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {selectedProduct.safetyInstructions && selectedProduct.safetyInstructions.length > 0 && (
+                                        <div className="safety-info">
+                                            <strong>{t("safety_instructions") || "Safety Instructions"}:</strong>
+                                            <ul>
+                                                {selectedProduct.safetyInstructions.map((inst, i) => (
+                                                    <li key={i}>{t(inst.toLowerCase()) || inst}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
 
-                                {selectedProduct.category === "Pesticide" && (
-                                    <div className="detailed-info">
-                                        {selectedProduct.type && <div className="info-tag"><strong>{t("type")}:</strong> {t(selectedProduct.type.toLowerCase())}</div>}
-
-                                        {selectedProduct.usedFor && selectedProduct.usedFor.length > 0 && (
-                                            <div className="info-section">
-                                                <h4>{t("used_for")}:</h4>
-                                                <div className="tags">
-                                                    {selectedProduct.usedFor.map((s, idx) => <span key={idx}>{t(s.toLowerCase())}</span>)}
+                                    {/* Blockchain Journey Section */}
+                                    <div className="blockchain-section">
+                                        <div className="blockchain-header">
+                                            <h3>🔗 {t("verified_journey") || "Verified Blockchain Journey"}</h3>
+                                            <button className="verify-btn" onClick={() => fetchJourney(selectedProduct.id || "WHEAT-001")}>
+                                                {t("verify_now") || "Verify Now"}
+                                            </button>
+                                        </div>
+                                        {loadingJourney ? <p className="loading-text">Verifying Ledger...</p> : (
+                                            journey.length > 0 && (
+                                                <div className="journey-timeline">
+                                                    {journey.map((block, i) => (
+                                                        <div key={i} className="journey-block">
+                                                            <div className="block-marker"></div>
+                                                            <div className="block-content">
+                                                                <span className="block-stage">{block.data.stage}</span>
+                                                                <span className="block-date">{new Date(block.timestamp).toLocaleDateString()}</span>
+                                                                <p className="block-details">
+                                                                    {block.data.location && <span>📍 {block.data.location}</span>}
+                                                                    {block.data.status && <span className="status-tag">{block.data.status}</span>}
+                                                                </p>
+                                                                <code className="block-hash">Hash: {block.hash.substring(0, 16)}...</code>
+                                                            </div>
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                            </div>
-                                        )}
-
-                                        {selectedProduct.usageSteps && selectedProduct.usageSteps.length > 0 && (
-                                            <div className="info-section">
-                                                <h4>{t("how_to_use")}:</h4>
-                                                <ol>
-                                                    {selectedProduct.usageSteps.map((step, i) => <li key={i}>{t(step.toLowerCase()) || step}</li>)}
-                                                </ol>
-                                            </div>
-                                        )}
-
-                                        {selectedProduct.safetyInstructions && selectedProduct.safetyInstructions.length > 0 && (
-                                            <div className="info-section safety-box">
-                                                <h4>⚠️ {t("safety_instructions")}:</h4>
-                                                <ul>
-                                                    {selectedProduct.safetyInstructions.map((s, i) => <li key={i}>{t(s.toLowerCase()) || s}</li>)}
-                                                </ul>
-                                            </div>
+                                            )
                                         )}
                                     </div>
-                                )}
-
+                                </div>
                                 {/* Reviews Section */}
                                 <div className="reviews-section">
                                     <h3>{t("reviews_ratings")} ({selectedProduct.ratingCount || 0})</h3>

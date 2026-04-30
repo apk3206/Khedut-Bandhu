@@ -1,9 +1,11 @@
-/* Main Layout - Global Background */
+/* =====================================================
+   FARMER DASHBOARD — Dark Agricultural Theme
+====================================================== */
+
+/* Main Layout */
 .khedut-dashboard {
-    /* Main Background Image covering detailed area */
     background: url("./maindashh.png") no-repeat center center / cover;
     background-attachment: fixed;
-    /* Keeps background static while scrolling */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -12,94 +14,101 @@
 .main-layout {
     display: flex;
     flex-grow: 1;
-    background: rgba(0, 0, 0, 0.2);
-    /* Slight overlay for entire dashboard */
+    background: rgba(10, 22, 40, 0.75);
 }
 
-/* Sidebar - Glassmorphism */
+/* =====================================================
+   SIDEBAR — Dark Glassmorphism
+====================================================== */
 .sidebar {
-    width: 260px;
-    background-color: rgba(255, 255, 255, 0.85);
-    /* Semi-transparent white */
-    backdrop-filter: blur(10px);
-    /* Blur effect */
-    -webkit-backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    width: 250px;
+    background: rgba(13, 31, 60, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-right: 1px solid rgba(255,255,255,0.07);
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 0 20px rgba(0,0,0,0.3);
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    padding: 20px 20px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    font-weight: 700;
+    color: #3d5a73;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 .menu-item {
-    padding: 15px 20px;
+    padding: 13px 20px;
     cursor: pointer;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    color: #333;
-    transition: all 0.3s;
-    font-size: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #8aadcc;
+    transition: all 0.2s ease;
+    font-size: 14px;
     font-weight: 500;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-
-.sidebar-badge {
-    background-color: #ef4444;
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 12px;
-    min-width: 20px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3);
+    justify-content: space-between;
+    gap: 10px;
+    position: relative;
 }
 
 .menu-item:hover {
-    background-color: rgba(40, 167, 69, 0.1);
-    /* Light green hover */
-    color: #28a745;
+    background: rgba(39,174,96,0.08);
+    color: #2ecc71;
+    padding-left: 24px;
 }
 
 .menu-item.active {
-    background-color: rgba(40, 167, 69, 0.2);
-    font-weight: bold;
-    border-left: 5px solid #28a745;
-    color: #28a745;
+    background: rgba(39,174,96,0.12);
+    color: #2ecc71;
+    font-weight: 700;
+    border-left: 3px solid #27ae60;
 }
 
-/* Content Area - Transparent on Home, Card on others */
+/* Notification badge */
+.sidebar-badge {
+    background: #e74c3c;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 12px;
+    min-width: 18px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(231,76,60,0.35);
+}
+
+/* =====================================================
+   CONTENT AREA — Dark Card
+====================================================== */
 .content-area {
     flex-grow: 1;
-    padding: 30px;
-    /* Default background for forms/grids to be readable */
-    background-color: rgba(255, 255, 255, 0.92);
+    padding: 28px;
+    background: rgba(10, 22, 40, 0.82);
     overflow-y: auto;
-    margin: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.07);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    min-height: calc(100vh - 32px);
 }
 
-/* Special Case: Make Home Tab Transparent to see the field */
-/* We will target the .welcome-panel's parent in next step or assume generic structure */
-/* Actually, the cleanest way is to just unset background for .content-area if it's home, 
-   but CSS can't detect react state. 
-   So we will style .welcome-panel to just be transparent and let the .content-area handle it,
-   BUT if we want Home to be fully transparent, we might need to apply a class to content-area dynamically.
-   
-   For now, let's keep content-area semi-transparent white (0.9) so it looks like a clean sheet 
-   OVER the field. The user said "through leftside components", implying sidebar.
-   
-   If they want to see the field on the Right side too, a 0.9 opacity is good.*/
-
-/* Welcome Panel - Now Transparent */
+/* =====================================================
+   WELCOME PANEL
+====================================================== */
 .welcome-panel {
     text-align: center;
-    padding: 80px 50px;
-    /* No background image here anymore, it comes from body */
+    padding: 60px 40px;
     background: transparent;
-    color: #333;
-    min-height: 60vh;
+    color: #e8f4f8;
+    min-height: 55vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -107,59 +116,255 @@
 }
 
 .welcome-panel h2 {
-    color: #28a745;
-    /* Back to Green for readability on white card */
+    color: #2ecc71;
     font-size: 36px;
-    margin-bottom: 20px;
-    text-shadow: none;
+    font-weight: 800;
+    margin-bottom: 14px;
+    text-shadow: 0 0 30px rgba(39,174,96,0.3);
 }
 
 .welcome-panel p {
-    font-size: 18px;
-    margin-bottom: 30px;
-    color: #555;
-    text-shadow: none;
+    font-size: 16px;
+    margin-bottom: 34px;
+    color: #6b8cae;
+    max-width: 480px;
+    line-height: 1.6;
 }
 
 /* Quick Links */
 .quick-links button {
-    margin: 10px;
-    padding: 12px 25px;
-    background-color: #28a745;
+    margin: 8px;
+    padding: 12px 26px;
+    background: linear-gradient(135deg, #27ae60, #1abc9c);
     color: white;
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, background 0.2s;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(39,174,96,0.35);
+    transition: all 0.25s ease;
 }
 
 .quick-links button:hover {
-    transform: translateY(-2px);
-    background-color: #218838;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(39,174,96,0.5);
 }
 
-/* Recommendation Box Styling */
+/* =====================================================
+   RECOMMENDATIONS BOX
+====================================================== */
+.recommendations-box {
+    background: rgba(39,174,96,0.1);
+    border: 1px solid rgba(39,174,96,0.25);
+    border-radius: 14px;
+    padding: 20px 24px;
+}
+
 .recommendations-box p,
 .recommendations-box strong,
-.recommendations-box li {
-    color: #ffffff !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
+.recommendations-box li,
 .recommendations-box h3 {
-    margin-bottom: 15px;
+    color: #e8f4f8 !important;
 }
 
-/* Complaint Card */
-.complaint-card {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    background: white;
-    /* Ensure cards are solid */
+/* =====================================================
+   CONTENT CARDS — Universal Dark Card
+====================================================== */
+.complaint-card,
+.detailed-card,
+.scheme-card,
+.product-card,
+.order-card {
+    background: rgba(17, 34, 64, 0.9);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    color: #c8ddef;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+
+.complaint-card:hover,
+.detailed-card:hover,
+.scheme-card:hover,
+.product-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(39,174,96,0.3);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    background: rgba(22, 48, 96, 0.95);
+}
+
+.complaint-card h4,
+.complaint-card p,
+.detailed-card h4,
+.detailed-card p {
+    color: #c8ddef;
+}
+
+/* =====================================================
+   SUBSIDY / PORTAL CARDS
+====================================================== */
+.portal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+
+.visit-btn {
+    background: linear-gradient(135deg, #1a6ec0, #1abc9c);
+    color: white !important;
+    padding: 7px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+    border: none;
+}
+
+.visit-btn:hover { opacity: 0.85; }
+
+.portal-usage {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #8aadcc;
+    background: rgba(26,108,192,0.08);
+    padding: 10px 14px;
+    border-left: 3px solid #1a6ec0;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.docs-list h5 {
+    color: #2ecc71;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.docs-list ul { padding-left: 18px; }
+
+.docs-list li {
+    font-size: 13px;
+    color: #8aadcc;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.important-note {
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: rgba(243,156,18,0.1);
+    border: 1px solid rgba(243,156,18,0.25);
+    color: #f39c12;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* =====================================================
+   FORM ELEMENTS INSIDE DASHBOARD — Dark
+====================================================== */
+.content-area input,
+.content-area select,
+.content-area textarea {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 8px !important;
+    color: #e8f4f8 !important;
+    padding: 10px 14px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.content-area input:focus,
+.content-area select:focus,
+.content-area textarea:focus {
+    border-color: rgba(39,174,96,0.5) !important;
+    background: rgba(39,174,96,0.06) !important;
+    box-shadow: 0 0 0 3px rgba(39,174,96,0.1) !important;
+}
+
+.content-area input::placeholder,
+.content-area textarea::placeholder {
+    color: #3d5a73 !important;
+}
+
+.content-area label {
+    color: #6b8cae !important;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.content-area h2,
+.content-area h3,
+.content-area h4 {
+    color: #e8f4f8;
+}
+
+.content-area p { color: #8aadcc; }
+
+/* =====================================================
+   COMMON DOCS PANEL
+====================================================== */
+.common-docs-panel {
+    background: rgba(17,34,64,0.9);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px;
+    transition: all 0.25s;
+}
+
+.common-docs-panel:hover {
+    border-color: rgba(39,174,96,0.3);
+    box-shadow: 0 6px 20px rgba(39,174,96,0.12);
+}
+
+/* =====================================================
+   RESPONSIVE
+====================================================== */
+@media (max-width: 768px) {
+    .main-layout { flex-direction: column; }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .menu-item {
+        white-space: nowrap;
+        border-bottom: none;
+        border-right: 1px solid rgba(255,255,255,0.05);
+        padding: 12px 16px;
+    }
+
+    .menu-item.active {
+        border-left: none;
+        border-bottom: 3px solid #27ae60;
+    }
+
+    .content-area {
+        margin: 10px;
+        padding: 16px;
+        min-height: auto;
+    }
+
+    .welcome-panel { padding: 40px 20px; }
+    .welcome-panel h2 { font-size: 26px; }
+    .quick-links button { width: 100%; margin: 5px 0; }
 }
